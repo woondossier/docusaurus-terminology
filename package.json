@@ -1,13 +1,7 @@
 {
   "name": "docusaurus-terminology",
-  "version": "0.0.1",
-  "description": "Parse terms and link them to their terminology page and generate glossary based on those terms",
-  "main": "index.js",
-  "author": "Thanasis Katsadas <kathan@admin.grnet.gr>",
-  "license": "MIT",
-  "private": false,
-  "dependencies": {
-    "glob": "^7.1.6",
-    "parse-md": "^2.0.4"
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.22.1"
   }
 }
