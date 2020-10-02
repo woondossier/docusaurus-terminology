@@ -17,11 +17,11 @@ String.prototype.insert = function(index, string) {
 };
 
 function getImportStatement(filePath) {
-  var filePath = path.dirname(filePath);
-  var absoluteTermPath = path.resolve('./src/components');
+  // var filePath = path.dirname(filePath);
+  // var absoluteTermPath = path.resolve('./src/components');
   // Find the relative path between the file to be modified and the Term plugin
-  var relativePath = path.relative(filePath, absoluteTermPath);
-  var importTerm = `\n\nimport { Term } from '${relativePath}'`;
+  // var relativePath = path.relative(filePath, absoluteTermPath);
+  var importTerm = `\n\nimport Term from '@docusaurus-terminology/term'`;
 
   return importTerm
 }
@@ -66,7 +66,7 @@ function parser(err, files) {
             // Get the popup text for the term
             let hoverText = getHoverText(referencePath);
 
-            var new_text = ('<Term popup="' + hoverText + '" reference="' +
+            var new_text = ('<Term popup="' + hoverText + '" reference="/docs/terms/' +
                 reference + '">' + text + '</Term>');
             content = content.replace(regex_match, new_text);
           }

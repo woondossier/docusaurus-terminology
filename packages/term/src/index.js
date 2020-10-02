@@ -1,13 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Tooltip } from '@material-ui/core';
 
-export default Term = (props) => {
+export default function Term(props) {
   return (
     <Tooltip title={props.popup} arrow={true}>
-      <Link to={props.reference}>
+      <a href={props.reference}>
         <span className='term'>{props.children}</span>
-      </Link>
+      </a>
     </Tooltip>
   );
 }
