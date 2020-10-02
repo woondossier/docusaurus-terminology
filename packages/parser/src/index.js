@@ -66,7 +66,7 @@ function parser(err, files) {
             // Get the popup text for the term
             let hoverText = getHoverText(referencePath);
 
-            var new_text = ('<Term popup="' + hoverText + '" reference="/docs/terms/' +
+            var new_text = ('<Term popup="' + hoverText + '" reference="./terms/' +
                 reference + '">' + text + '</Term>');
             content = content.replace(regex_match, new_text);
           }
