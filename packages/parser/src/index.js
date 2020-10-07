@@ -98,7 +98,7 @@ async function getGlossaryTerms(files) {
 
 function generateGlossary(data) {
   //append all markdown terms in a variable
-  let content = "";
+  let content = '';
   data.forEach(item => {
     if (item.title !== undefined) {
 	  if (item.hoverText === undefined) {
@@ -107,9 +107,16 @@ function generateGlossary(data) {
 	    content = content +  `\n\n- **[${item.title}](${item.filepath})**: ${item.hoverText}\n`;
 	  }
 	}
-  })
+  });
+  if(!fs.existsSync(glossaryPath)) {
+    //create file with initial content
+    console.log('Glossary file does not exist. Generating new glossary page')
+    const glossaryHeader = searchTerm + '\nid: glossary\ntitle: Glossary\n' + searchTerm;
+    fs.writeFile(glossaryPath, glossaryHeader, 'utf8', function (err) {
+      if (err) return console.log(err);
+    });
+  }
   fs.readFile(glossaryPath, 'utf8', function(err, glossaryContent) {
-    if (err) throw err;
     var indexOfSecond = glossaryContent.indexOf(searchTerm, 1);
     newContent = glossaryContent.slice(0, indexOfSecond + 3);
     newContent = newContent + content;
