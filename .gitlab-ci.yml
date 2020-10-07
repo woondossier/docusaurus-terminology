@@ -1,0 +1,12 @@
+stages:
+  - build
+
+build:
+  image: node:lts
+  stage: build
+  before_script:
+    - yarn
+    - yarn run lerna bootstrap
+  script:
+    - yarn build
+
