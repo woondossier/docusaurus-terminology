@@ -1,6 +1,9 @@
 {
   "name": "docusaurus-terminology",
   "private": true,
+  "scripts": {
+    "build": "lerna run build"
+  },
   "devDependencies": {
     "lerna": "^3.22.1"
   }
