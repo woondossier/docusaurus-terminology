@@ -16,6 +16,17 @@ String.prototype.insert = function(index, string) {
   return string + this;
 };
 
+function getRelativePath(source,target) {
+  // calculate relative path from each file's parent dir
+  const sourceDir = source.substr(0, source.lastIndexOf("/"));
+  const targetDir = target.substr(0, target.lastIndexOf("/"));
+  const relative_url = path.relative(sourceDir, targetDir);
+  // construct the final url by appending the target's filename
+  // if the relative url is empty, it means that the referenced
+  // term is in the same dir, so add a `.`
+  return relative_url === '' ? '.' + target.substr(target.lastIndexOf("/")) : relative_url + target.substr(target.lastIndexOf("/"));
+}
+
 function getImportStatement(filePath) {
   // var filePath = path.dirname(filePath);
   // var absoluteTermPath = path.resolve('./src/components');
@@ -71,8 +82,12 @@ async function parser(err, files) {
           // Get the popup text for the term
           let hoverText = await getHoverText(referencePath);
 
-          var new_text = ('<Term popup="' + hoverText + '" reference="./terms/' +
-              reference + '">' + text + '</Term>');
+          const current_file_path = path.resolve(process.cwd(), filepath);
+          const term_path = path.resolve(process.cwd(), TERMS_DIR, reference);
+          const reference_url = getRelativePath(current_file_path, term_path);
+
+          var new_text = ('<Term popup="' + hoverText + '" reference="' +
+              reference_url + '">' + text + '</Term>');
           content = content.replace(regex_match, new_text);
         }
         // Find the index of the 2nd occurrence of '---'
