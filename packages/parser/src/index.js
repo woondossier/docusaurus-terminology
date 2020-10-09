@@ -6,48 +6,12 @@ const path = require("path");
 const TERMS_DIR = './docs/terms/'
 const glossaryPath = './docs/glossary.md';
 const searchTerm = '---';
+const importStatement = `\n\nimport Term from '@docusaurus-terminology/term';\n`;
 
-//exports.Term = require('./src/term.js');
-
-String.prototype.insert = function(index, string) {
-  if (index > 0) {
-    return this.substring(0, index) + string + this.substring(index, this.length);
-  }
-  return string + this;
-};
-
-function getRelativePath(source,target) {
-  // calculate relative path from each file's parent dir
-  const sourceDir = source.substr(0, source.lastIndexOf("/"));
-  const targetDir = target.substr(0, target.lastIndexOf("/"));
-  const relative_url = path.relative(sourceDir, targetDir);
-  // construct the final url by appending the target's filename
-  // if the relative url is empty, it means that the referenced
-  // term is in the same dir, so add a `.`
-  return relative_url === '' ? '.' + target.substr(target.lastIndexOf("/")) : relative_url + target.substr(target.lastIndexOf("/"));
-}
-
-function getImportStatement(filePath) {
-  // var filePath = path.dirname(filePath);
-  // var absoluteTermPath = path.resolve('./src/components');
-  // Find the relative path between the file to be modified and the Term plugin
-  // var relativePath = path.relative(filePath, absoluteTermPath);
-  var importTerm = `\n\nimport Term from '@docusaurus-terminology/term'\n`;
-
-  return importTerm
-}
-
-async function getHoverText(filePath) {
-  let data = await fs.promises.readFile(filePath, 'utf8')
-  let { metadata } = parseMD(data)
-  return metadata.hoverText
-}
-
-function getTermTitle(filePath) {
-  let data = fs.readFileSync(filePath, 'utf8')
-  let { metadata } = parseMD(data)
-  return metadata.title
-}
+const { addImportStatement } = require('./lib.js');
+const { getRelativePath } = require('./lib.js');
+const { getHoverText } = require('./lib.js');
+const { getTermTitle } = require('./lib.js');
 
 var getDirectories = function (src, callback) {
   glob(src, callback);
@@ -93,8 +57,7 @@ async function parser(err, files) {
         // Find the index of the 2nd occurrence of '---'
         var indexOfSecond = content.indexOf(searchTerm, 1);
         // Add the import statement
-        var importStatement = getImportStatement(filepath);
-        content = content.insert(indexOfSecond + 3, importStatement);
+        content = addImportStatement(content, indexOfSecond + 3, importStatement);
 
         // Write the file with the updated content
         fs.writeFile(filepath, content, 'utf8', function (err) {

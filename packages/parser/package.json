@@ -6,6 +6,8 @@
   "author": "Thanasis Katsadas <kathan@admin.grnet.gr>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+  },
   "dependencies": {
     "glob": "^7.1.6",
     "parse-md": "^2.0.4"
