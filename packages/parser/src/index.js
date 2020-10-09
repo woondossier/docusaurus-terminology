@@ -48,10 +48,14 @@ async function parser(err, files) {
 
           const current_file_path = path.resolve(process.cwd(), filepath);
           const term_path = path.resolve(process.cwd(), TERMS_DIR, reference);
-          const reference_url = getRelativePath(current_file_path, term_path);
-
-          var new_text = ('<Term popup="' + hoverText + '" reference="' +
-              reference_url + '">' + text + '</Term>');
+          const new_final_url = getRelativePath(current_file_path, term_path);
+          if (hoverText === undefined) {
+	        var new_text = ('<Term reference="' + new_final_url + '">' +
+	            text + '</Term>');
+	      } else {
+	        var new_text = ('<Term popup="' + hoverText + '" reference="' +
+	            new_final_url + '">' + text + '</Term>');
+	      }
           content = content.replace(regex_match, new_text);
         }
         // Find the index of the 2nd occurrence of '---'
@@ -81,11 +85,13 @@ async function getGlossaryTerms(files) {
     //gather all metadata
     let { metadata } = parseMD(content)
     //keep only the required keys
-    arr.push({
-      title: metadata.title,
-      hoverText: metadata.hoverText,
-      filepath: filepath.slice(1,-3),
-    });
+    if (metadata.title) {
+      arr.push({
+	    title: metadata.title,
+	    hoverText: metadata.hoverText,
+	    filepath: filepath.slice(1,-3),
+	  });
+	}
   }
   return arr;
 }
@@ -94,7 +100,13 @@ function generateGlossary(data) {
   //append all markdown terms in a variable
   let content = "";
   data.forEach(item => {
-    content = content +  `\n\n- **[${item.title}](${item.filepath})**: ${item.hoverText}\n`;
+    if (item.title !== undefined) {
+	  if (item.hoverText === undefined) {
+	    content = content +  `\n\n- **[${item.title}](${item.filepath})**\n`;
+	  } else {
+	    content = content +  `\n\n- **[${item.title}](${item.filepath})**: ${item.hoverText}\n`;
+	  }
+	}
   })
   fs.readFile(glossaryPath, 'utf8', function(err, glossaryContent) {
     if (err) throw err;
@@ -115,8 +127,8 @@ async function parseGlossary(err, files) {
   }
   //get all terms in an array of objects
   const data = await getGlossaryTerms(files);
-  //sort them alphabeteically
-  data.sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0));
+  //sort them alphabetically
+  data.sort((a,b) => (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : ((b.title.toLowerCase() > a.title.toLowerCase()) ? -1 : 0));
   //write the glossary.md file
   generateGlossary(data);
 }
