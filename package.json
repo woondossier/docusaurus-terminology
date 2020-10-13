@@ -2,11 +2,13 @@
   "name": "docusaurus-terminology",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "website"
   ],
   "scripts": {
     "build": "lerna exec --parallel -- babel --root-mode upward src -d lib",
-    "test": "jest"
+    "test": "jest",
+    "bootstrap": "lerna bootstrap --use-workspaces"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
