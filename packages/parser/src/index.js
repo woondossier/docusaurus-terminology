@@ -3,16 +3,20 @@ const fs = require('fs');
 const parseMD = require('parse-md').default;
 const path = require("path");
 
-const TERMS_DIR = './docs/terms/'
-const glossaryPath = './docs/glossary.md';
-const searchTerm = '---';
-const importStatement = `\n\nimport Term from '@docusaurus-terminology/term';\n`;
-
 const { addImportStatement } = require('./lib.js');
 const { getRelativePath } = require('./lib.js');
 const { getHoverText } = require('./lib.js');
 const { getTermTitle } = require('./lib.js');
 
+const searchTerm = '---';
+const importStatement = `\n\nimport Term from '@docusaurus-terminology/term';\n`;
+const DEFAULT_OPTIONS = {'termsDir':'./docs/terms/',
+                         'glossaryFilepath': './docs/glossary.md',
+                         'patternSeparator': '|',
+                         'noParseFiles': [],
+                         'noGlossaryFiles': []};
+
+let options = {};
 var getDirectories = function (src, callback) {
   glob(src, callback);
 };
@@ -21,8 +25,8 @@ async function parser(err, files) {
   if (err) {
     console.log('Error', err);
   } else {
-    // Iterate through the .md(x) files
-    for(let filepath of files.filter(filepath => filepath != './docs/terminology-plugin-instructions.md')) {
+    // Iterate through the .md(x) files and exclude the not-to-be-parsed files
+    for(let filepath of files.filter(filepath => options.noParseFiles.indexOf(filepath) == -1)) {
       let content = '';
       try {
         content = await fs.promises.readFile(filepath, 'utf8');
@@ -30,24 +34,24 @@ async function parser(err, files) {
         console.log(err)
       }
       if (err) throw err;
-      // Regex for finding the pattern:  %token_1,token_2%
-      reg = /\%%.*?\|.*?\%%/g;
+      // Regex for finding the pattern:  %%token_1|token_2%%
+      var regex = new RegExp("\\%%.*?\\" + options.patternSeparator + ".*?\\%%", "g");
       // If there is at least one match between the content of the file and
       // the regex, proceed
-      if ((regex_matches = content.match(reg)) !== null) {
+      if ((regex_matches = content.match(regex)) !== null) {
         for(let regex_match of regex_matches) {
-          var token = regex_match.split('|');
+          var token = regex_match.split(options.patternSeparator);
 
           // Find the path of the term
           var reference = (token[1]).replace(/[%" ]/g, '');
           var text = (token[0]).replace(/[%"]/g, '');
 
-          let referencePath = TERMS_DIR + reference + '.md';
+          let referencePath = options.termsDir + reference + '.md';
           // Get the popup text for the term
           let hoverText = await getHoverText(referencePath);
 
           const current_file_path = path.resolve(process.cwd(), filepath);
-          const term_path = path.resolve(process.cwd(), TERMS_DIR, reference);
+          const term_path = path.resolve(process.cwd(), options.termsDir, reference);
           const new_final_url = getRelativePath(current_file_path, term_path);
           if (hoverText === undefined) {
 	        var new_text = ('<Term reference="' + new_final_url + '">' +
@@ -75,7 +79,11 @@ async function parser(err, files) {
 async function getGlossaryTerms(files) {
   //we will save here all the required data
   let arr = [];
-  for(let filepath of files) {
+  options.noGlossaryFiles.forEach(function(file, index) {
+    this[index] = path.resolve(file);
+  }, options.noGlossaryFiles);
+  // Iterate through the term files (the ones to be included in the glossary)
+  for(let filepath of files.filter(filepath => options.noGlossaryFiles.indexOf(filepath) == -1)) {
     let content = '';
     try {
       content = await fs.promises.readFile(filepath, 'utf8');
@@ -108,20 +116,21 @@ function generateGlossary(data) {
 	  }
 	}
   });
-  if(!fs.existsSync(glossaryPath)) {
+  if(!fs.existsSync(options.glossaryFilepath)) {
     //create file with initial content
     console.log('Glossary file does not exist. Generating new glossary page')
     const glossaryHeader = searchTerm + '\nid: glossary\ntitle: Glossary\n' + searchTerm;
-    fs.writeFile(glossaryPath, glossaryHeader, 'utf8', function (err) {
+    fs.writeFile(options.glossaryFilepath, glossaryHeader, 'utf8', function (err) {
       if (err) return console.log(err);
     });
   }
-  fs.readFile(glossaryPath, 'utf8', function(err, glossaryContent) {
+  fs.readFile(options.glossaryFilepath, 'utf8', function(err, glossaryContent) {
+    if (err) throw err;
     var indexOfSecond = glossaryContent.indexOf(searchTerm, 1);
     newContent = glossaryContent.slice(0, indexOfSecond + 3);
     newContent = newContent + content;
     // Write the list of terms to the glossary page
-    fs.writeFile(glossaryPath, newContent, 'utf8', function (err) {
+    fs.writeFile(options.glossaryFilepath, newContent, 'utf8', function (err) {
       if (err) return console.log(err);
     });
   });
@@ -140,7 +149,11 @@ async function parseGlossary(err, files) {
   generateGlossary(data);
 }
 
-module.exports = function (context, options) {
+
+module.exports = function (context, opts) {
+  options = Object.assign({}, DEFAULT_OPTIONS, opts);
+  options.termsDir = path.resolve(options.termsDir) + '/';
+  options.glossaryFilepath = path.resolve(options.glossaryFilepath);
   return {
     name: 'terminology-parser',
     extendCli(cli) {
@@ -156,7 +169,7 @@ module.exports = function (context, options) {
         .description('Generate a glossary of terms')
         .action(() => {
           console.log('Alphabetical list of terms');
-          getDirectories('./docs/terms/*.md*', parseGlossary);
+          getDirectories(options.termsDir+'*.md*', parseGlossary);
         });
     },
   };
