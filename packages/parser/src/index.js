@@ -10,11 +10,13 @@ const { getTermTitle } = require('./lib.js');
 
 const searchTerm = '---';
 const importStatement = `\n\nimport Term from '@docusaurus-terminology/term';\n`;
-const DEFAULT_OPTIONS = {'termsDir':'./docs/terms/',
-                         'glossaryFilepath': './docs/glossary.md',
-                         'patternSeparator': '|',
-                         'noParseFiles': [],
-                         'noGlossaryFiles': []};
+const DEFAULT_OPTIONS = {
+  'termsDir': './docs/terms/',
+  'glossaryFilepath': './docs/glossary.md',
+  'patternSeparator': '|',
+  'noParseFiles': [],
+  'noGlossaryFiles': []
+};
 
 let options = {};
 var getDirectories = function (src, callback) {
