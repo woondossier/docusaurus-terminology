@@ -102,6 +102,11 @@ module.exports = {
     ],
   ],
   plugins: [
-    '@docusaurus-terminology/parser'
+    [
+      '@docusaurus-terminology/parser',
+      {
+        termsDir: './docs/terminology'
+      }
+    ]
   ]
 };
