@@ -18,7 +18,9 @@
   },
   "scripts": {
     "lint": "prettier --check src",
-    "lint:fix": "prettier --write src"
+    "lint:fix": "prettier --write src",
+    "eslint": "eslint src",
+    "eslint:fix": "eslint --fix src"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0"

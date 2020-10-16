@@ -8,7 +8,9 @@
   "private": false,
   "scripts": {
     "lint": "prettier --check src",
-    "lint:fix": "prettier --write src"
+    "lint:fix": "prettier --write src",
+    "eslint": "eslint src",
+    "eslint:fix": "eslint --fix src"
   },
   "dependencies": {
     "glob": "^7.1.6",
