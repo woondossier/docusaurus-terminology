@@ -7,9 +7,16 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "lint": "prettier --check src",
+    "lint:fix": "prettier --write src"
   },
   "dependencies": {
     "glob": "^7.1.6",
     "parse-md": "^2.0.4"
+  },
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "6.12.0",
+    "prettier": "2.1.2"
   }
 }
