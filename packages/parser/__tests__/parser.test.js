@@ -1,7 +1,6 @@
 const { addImportStatement } = require('../src/lib.js');
 const { getRelativePath } = require('../src/lib.js');
 const { getHoverText } = require('../src/lib.js');
-const { getTermTitle } = require('../src/lib.js');
 
 describe('add import statement', () => {
     const content = 'some-content';

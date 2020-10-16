@@ -27,15 +27,8 @@ async function getHoverText(filePath) {
   return metadata.hoverText
 }
 
-function getTermTitle(filePath) {
-  let data = fs.readFileSync(filePath, 'utf8')
-  let { metadata } = parseMD(data)
-  return metadata.title
-}
-
 module.exports = {
   addImportStatement: addImportStatement,
   getRelativePath: getRelativePath,
   getHoverText: getHoverText,
-  getTermTitle: getTermTitle
 }

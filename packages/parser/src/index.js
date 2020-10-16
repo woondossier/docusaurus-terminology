@@ -6,7 +6,6 @@ const path = require("path");
 const { addImportStatement } = require('./lib.js');
 const { getRelativePath } = require('./lib.js');
 const { getHoverText } = require('./lib.js');
-const { getTermTitle } = require('./lib.js');
 
 const searchTerm = '---';
 const importStatement = `\n\nimport Term from '@docusaurus-terminology/term';\n`;
