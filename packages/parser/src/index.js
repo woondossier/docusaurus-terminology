@@ -65,17 +65,10 @@ async function parser(err, files) {
           );
           const new_final_url = getRelativePath(current_file_path, term_path);
           if (hoverText === undefined) {
-            var new_text =
-              '<Term reference="' + new_final_url + '">' + text + "</Term>";
+            var new_text = `<Term reference="${new_final_url}">${text}</Term>`;
           } else {
             var new_text =
-              '<Term popup="' +
-              hoverText +
-              '" reference="' +
-              new_final_url +
-              '">' +
-              text +
-              "</Term>";
+            `<Term popup="${hoverText}" reference="${new_final_url}">${text}</Term>`;
           }
           content = content.replace(regex_match, new_text);
         }
@@ -115,12 +108,14 @@ async function getGlossaryTerms(files) {
     }
     //gather all metadata
     let { metadata } = parseMD(content);
+    //get the relative path of each term from the glossary filepath
+    filepath = getRelativePath(options.glossaryFilepath, filepath)
     //keep only the required keys
     if (metadata.title) {
       arr.push({
         title: metadata.title,
         hoverText: metadata.hoverText,
-        filepath: filepath.slice(1, -3),
+        filepath: filepath.slice(0,-3),
       });
     }
   }
@@ -145,7 +140,7 @@ function generateGlossary(data) {
     //create file with initial content
     console.log("Glossary file does not exist. Generating new glossary page");
     const glossaryHeader =
-      searchTerm + "\nid: glossary\ntitle: Glossary\n" + searchTerm;
+      `${searchTerm}\nid: glossary\ntitle: Glossary\n${searchTerm}`;
     fs.writeFile(options.glossaryFilepath, glossaryHeader, "utf8", function (
       err
     ) {
