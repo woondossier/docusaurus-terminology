@@ -141,9 +141,8 @@ function generateGlossary(data) {
     console.log("Glossary file does not exist. Generating new glossary page");
     const glossaryHeader =
       `${searchTerm}\nid: glossary\ntitle: Glossary\n${searchTerm}`;
-    fs.writeFile(options.glossaryFilepath, glossaryHeader, "utf8", function (
-      err
-    ) {
+    fs.writeFileSync(options.glossaryFilepath, glossaryHeader, "utf8",
+      function (err) {
       if (err) return console.log(err);
     });
   }
