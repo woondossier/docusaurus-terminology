@@ -132,6 +132,43 @@ Done in 1.53s.
 This will generate a file in `./docs/glossary.md` where every term that has been
 mentioned above, will be populated in the `glossary.md` page.
 
+### Configuration options
+
+For using the plugin with the default options, you can provide just the plugin 
+name in `docusaurus.config.js` file of your repository:
+
+```
+  plugins: [
+    '@docusaurus-terminology/parser'
+  ]
+```
+
+You can also use some of the following options specified by wrapping the name 
+and an options object in an array inside your configuration:
+
+|      Option      |                                                Description                                                |  Type  |    Default value   |
+|:----------------:|:---------------------------------------------------------------------------------------------------------:|:------:|:------------------:|
+|     termsDir     |                                the directory used to collect the term files                               | string |    ./docs/terms    |
+| glossaryFilepath |                            specify the directory and name of the glossary file                            | string | ./docs/glossary.md |
+| patternSeparator | the special character used to separate `term_text` <br>and `term_name` in the replace pattern for parsing | string |         \|         |
+|   noParseFiles   |                             array of files to be excluded from search/replace                             |  array |         []         |
+|  noGlossaryFiles |                         array of term files to not be listed on the glossary page                         |  array |         []         |
+
+Example:
+
+```
+plugins: [
+  [
+    '@docusaurus-terminology/parser',
+    {
+      termsDir: './docs/terminology/',
+      noParseFiles: ['./docs/terminology/agent.md', './docs/terminology/actor.md'],
+      noGlossaryFiles: ['./docs/terminology/agent.md'],
+    }
+  ]
+]
+```
+
 ## How to contribute
 
 To build and use the plugin locally in a project, apply changes etc., follow the 
@@ -186,9 +223,16 @@ will be injected automatically, we only need to replace the parser integration
 And then we are ready to run our well-known commands:
 
 ```.shell script
-$ yarn parse
-$ yarn glossary
-$ yarn build
+$ yarn run docusaurus parse
+$ yarn run docusaurus glossary
+```
+
+Alternatively, if you prefer to use `yarn parse` and `yarn glossary`, add to 
+`package,json` of the docusaurus project, under `scripts`:
+
+```
+"parse": "docusaurus parse",
+"glossary": "docusaurus glossary"
 ```
 
 You can use a package named `serve` to create instantly a nodejs webserver to 
