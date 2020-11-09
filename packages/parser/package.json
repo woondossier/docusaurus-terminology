@@ -13,8 +13,8 @@
     "eslint:fix": "eslint --fix src"
   },
   "dependencies": {
-    "glob": "^7.1.6",
-    "parse-md": "^2.0.4"
+    "parse-md": "^2.0.4",
+    "globby": "^11.0.1"
   },
   "devDependencies": {
     "eslint": "^7.11.0",

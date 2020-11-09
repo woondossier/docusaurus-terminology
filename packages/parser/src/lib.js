@@ -1,6 +1,58 @@
 const path = require("path");
 const fs = require("fs");
 const parseMD = require("parse-md").default;
+const globby = require("globby");
+
+Array.prototype.diff = function(a) {
+    return this.filter(function(i) {return a.indexOf(i) < 0;});
+};
+
+async function getFiles(basePath, noParseFiles) {
+  let files = [];
+  // get all files under dir
+  files = await globby(basePath+'**/*.{md,mdx}');
+  // filter with the noParseFiles option and return
+  return files.diff(noParseFiles);
+}
+
+async function preloadTerms(termsFiles) {
+  let terms = [];
+  for (term of termsFiles) {
+    let fileContent = await fs.promises.readFile(term, "utf8");
+    let { metadata } = parseMD(fileContent);
+    if (!metadata.id) {
+      console.log(`the file "${term}" does not have an id and so is excluded from the term parsing functionality`);
+    } else {
+      const data = {
+        content: fileContent,
+        filepath:  term,
+        hoverText: metadata.hoverText || "",
+        id: metadata.id,
+        title: metadata.title || ""
+      }
+      terms.push(data);
+    }
+  }
+  return terms;
+}
+
+function getCleanTokens(match, separator) {
+  let tokens = match.split(separator);
+  tokens.forEach((token, index) => {
+    tokens[index] = token.replace(/[\%.]/g, "")
+  });
+  return tokens;
+}
+
+function splice(cont, idx, rem, str) {
+    return cont.slice(0, idx) + str + cont.slice(idx + Math.abs(rem));
+}
+
+function addJSImportStatement(content) {
+  const importStatement = `\n\nimport Term from @docusaurus-terminology/term;\n`;
+  const index = content.indexOf("---", 1) + "---".length;
+  return splice(content, index, 0, importStatement);
+}
 
 function addImportStatement(content, index, string) {
   if (index > 0) {
@@ -40,8 +92,12 @@ function getTermTitle(filePath) {
 }
 
 module.exports = {
+  getFiles: getFiles,
   addImportStatement: addImportStatement,
   getRelativePath: getRelativePath,
   getHoverText: getHoverText,
   getTermTitle: getTermTitle,
+  getCleanTokens: getCleanTokens,
+  preloadTerms: preloadTerms,
+  addJSImportStatement: addJSImportStatement
 };

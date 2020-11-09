@@ -8,7 +8,7 @@ const { getRelativePath } = require("./lib.js");
 const { getHoverText } = require("./lib.js");
 const { getTermTitle } = require("./lib.js");
 
-const parserF = require("./commands/parser.js");
+const parser = require("./commands/parser.js");
 
 const searchTerm = "---";
 const importStatement = `\n\nimport Term from '@docusaurus-terminology/term';\n`;
@@ -25,7 +25,7 @@ var getDirectories = function (src, callback) {
   glob(src, callback);
 };
 
-async function parser(err, files) {
+async function parserOld(err, files) {
   if (err) {
     console.log("Error", err);
   } else {
@@ -186,6 +186,9 @@ module.exports = function (context, opts) {
   options = Object.assign({}, DEFAULT_OPTIONS, opts);
   options.termsDir = path.resolve(options.termsDir) + "/";
   options.glossaryFilepath = path.resolve(options.glossaryFilepath);
+  options.noParseFiles.forEach((item, index) => {
+    options.noParseFiles[index] = path.resolve(process.cwd(), options.termsDir, item);
+  });
   return {
     name: "terminology-parser",
     extendCli(cli) {
@@ -194,8 +197,8 @@ module.exports = function (context, opts) {
         .description("Parse all md files to replace terms")
         .action(() => {
           console.log("Replacing patterns with <Term />");
-          parserF();
-          getDirectories("./docs/**/*.md*", parser);
+          parser(options);
+          //getDirectories("./docs/**/*.md*", parser);
         });
       cli
         .command("glossary")
