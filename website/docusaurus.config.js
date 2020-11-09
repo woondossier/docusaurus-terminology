@@ -105,7 +105,10 @@ module.exports = {
     [
       '@docusaurus-terminology/parser',
       {
-        termsDir: './docs/terminology'
+        termsDir: './docs/terminology',
+        noParseFiles: [
+          './exclude.md'
+        ]
       }
     ]
   ]
