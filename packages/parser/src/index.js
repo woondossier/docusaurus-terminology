@@ -10,17 +10,21 @@ const { getTermTitle } = require("./lib.js");
 
 const parser = require("./commands/parser.js");
 
-const searchTerm = "---";
-const importStatement = `\n\nimport Term from '@docusaurus-terminology/term';\n`;
 const DEFAULT_OPTIONS = {
   termsDir: "./docs/terms/",
   glossaryFilepath: "./docs/glossary.md",
   patternSeparator: "|",
   noParseFiles: [],
   noGlossaryFiles: [],
+  dryRun: false,
+  debug: false
 };
 
 let options = {};
+
+const searchTerm = "---";
+const importStatement = `\n\nimport Term from '@docusaurus-terminology/term';\n`;
+
 var getDirectories = function (src, callback) {
   glob(src, callback);
 };
@@ -194,16 +198,28 @@ module.exports = function (context, opts) {
     extendCli(cli) {
       cli
         .command("parse")
+        .option("-dr, --dry-run", "see what the command will do")
+        .option("-d, --debug", "see all log output of the command")
         .description("Parse all md files to replace terms")
-        .action(() => {
+        .action((args) => {
+          // check for dry-run and debug
+          options.dryRun = args.dryRun ? true : false;
+          options.debug = args.debug ? true : false;
+
           console.log("Replacing patterns with <Term />");
           parser(options);
           //getDirectories("./docs/**/*.md*", parser);
         });
       cli
         .command("glossary")
+        .option("-dr, --dry-run", "see what the command will do")
+        .option("-d, --debug", "see all log output of the command")
         .description("Generate a glossary of terms")
-        .action(() => {
+        .action((args) => {
+          // check for dry-run and debug
+          options.dryRun = args.dryRun ? true : false;
+          options.debug = args.debug ? true : false;
+
           console.log("Alphabetical list of terms");
           getDirectories(options.termsDir + "*.md*", parseGlossary);
         });
