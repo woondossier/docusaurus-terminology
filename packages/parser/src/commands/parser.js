@@ -44,6 +44,15 @@ async function parser(options) {
       content = addJSImportStatement(content);
       // now the new content can be replaced
       // in the opened file
+      // check: dry-run
+      if(options.dryRun) {
+        console.log("\ndry-run enabled: changes will not be applied in this file. Showing the output below:\n");
+        console.log(filepath+"\n");
+        console.log(content);
+      } else {
+        const result = await fs.promises.writeFile(filepath, content, "utf-8");
+        // TODO: maybe handle result
+      }
     }
   });
 }
