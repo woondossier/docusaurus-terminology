@@ -9,10 +9,8 @@ const {
 } = require("../lib.js");
 
 async function parser(options) {
-  console.log(options);
   const termsFiles = await getFiles(options.termsDir, options.noParseFiles)
   const termsData = await preloadTerms(termsFiles);
-  console.log(termsData);
   const regex = new RegExp(
     "\\%%.*?\\" + options.patternSeparator + ".*?\\%%",
     "g"
@@ -32,7 +30,6 @@ async function parser(options) {
         const termReference = termsData.find(item => item.id === ref);
         const current_file_path = path.resolve(process.cwd(), filepath);
         const relativePath = getRelativePath(current_file_path, termReference.filepath);
-        console.log(text, ref, termReference, relativePath);
         const component = `<Term popup="${termReference.hoverText}" reference="${relativePath}">${text}</Term>`;
         content = content.replace(match, component);
       };

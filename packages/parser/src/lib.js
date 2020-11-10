@@ -49,7 +49,7 @@ function splice(cont, idx, rem, str) {
 }
 
 function addJSImportStatement(content) {
-  const importStatement = `\n\nimport Term from @docusaurus-terminology/term;\n`;
+  const importStatement = `\n\nimport Term from "@docusaurus-terminology/term";\n`;
   const index = content.indexOf("---", 1) + "---".length;
   return splice(content, index, 0, importStatement);
 }
@@ -74,9 +74,11 @@ function getRelativePath(source, target) {
   // construct the final url by appending the target's filename
   // if the relative url is empty, it means that the referenced
   // term is in the same dir, so add a `.`
-  return relative_url === ""
+  let final_url = relative_url === ""
     ? "." + target.substr(target.lastIndexOf("/"))
     : relative_url + target.substr(target.lastIndexOf("/"));
+    //  remove .mdx suffix
+  return final_url.replace(/(\.mdx?)/g, "")
 }
 
 async function getHoverText(filePath) {
