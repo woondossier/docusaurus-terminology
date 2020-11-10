@@ -17,7 +17,7 @@ async function parser(options) {
     "\\%%.*?\\" + options.patternSeparator + ".*?\\%%",
     "g"
   );
-  const allFiles = await getFiles('./docs', options.noParseFiles);
+  const allFiles = await getFiles('./docs/', options.noParseFiles);
   allFiles.forEach(async (filepath, index) => {
     let content = await fs.promises.readFile(filepath, "utf8");
     // get all regex matches
