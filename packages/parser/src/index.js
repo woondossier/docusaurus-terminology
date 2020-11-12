@@ -11,6 +11,7 @@ const { getTermTitle } = require("./lib.js");
 const parser = require("./commands/parser.js");
 
 const DEFAULT_OPTIONS = {
+  docsDir: "./docs/",
   termsDir: "./docs/terms/",
   glossaryFilepath: "./docs/glossary.md",
   patternSeparator: "|",

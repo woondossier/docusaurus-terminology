@@ -17,7 +17,7 @@ async function getFiles(basePath, noParseFiles) {
 
 async function preloadTerms(termsFiles) {
   let terms = [];
-  for (term of termsFiles) {
+  for (const term of termsFiles) {
     let fileContent = await fs.promises.readFile(term, "utf8");
     let { metadata } = parseMD(fileContent);
     if (!metadata.id) {
