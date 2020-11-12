@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 const { addJSImportStatement } = require('../src/lib.js');
 const { getRelativePath } = require('../src/lib.js');
 const { getCleanTokens } = require('../src/lib.js');
@@ -31,12 +32,12 @@ describe('get the term name and reference from the regex match', () => {
     });
 });
 
-//it('get list of files to parse', async () => {
-//  const basePath = './test_docs/'
-//  const excludeList = ['./test_docs/exclude.md'];
-//  const files = await getFiles(basePath, excludeList);
-//  expect(files).toBe([]);
-//});
+it('get list of files to parse', async () => {
+  const basePath = './test_docs/'
+  const excludeList = ['./test_docs/exclude.md'];
+  const files = await getFiles(basePath, excludeList);
+  expect(files).toEqual([]);
+});
 
 //it('get list of files to parse', async () => {
 //  expect.assertions(1);
