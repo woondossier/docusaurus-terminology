@@ -58,6 +58,29 @@ function addJSImportStatement(content) {
   return splice(content, index, 0, importStatement);
 }
 
+function sortFiles(files) {
+  files.sort((a, b) =>
+    a.title.toLowerCase() > b.title.toLowerCase()
+    ? 1
+    : b.title.toLowerCase() > a.title.toLowerCase()
+    ? -1
+    : 0
+  );
+}
+
+function cleanGlossaryTerms(terms) {
+  const cleanTerms = terms.filter(item => {
+    return item.title && item.title.length > 0 ? true : false;
+  });
+  // handle debug case here
+  return cleanTerms;
+}
+
+function getGlossaryTerm(term, path) {
+  const hover = term.hoverText != undefined ? term.hoverText : "";
+  return `\n\n- **[${term.title}](${path})**: ${hover}\n`;
+}
+
 function addImportStatement(content, index, string) {
   if (index > 0) {
     return (
@@ -105,5 +128,8 @@ module.exports = {
   getTermTitle: getTermTitle,
   getCleanTokens: getCleanTokens,
   preloadTerms: preloadTerms,
-  addJSImportStatement: addJSImportStatement
+  addJSImportStatement: addJSImportStatement,
+  sortFiles: sortFiles,
+  cleanGlossaryTerms: cleanGlossaryTerms,
+  getGlossaryTerm: getGlossaryTerm
 };

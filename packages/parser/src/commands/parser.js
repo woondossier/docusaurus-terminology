@@ -51,7 +51,7 @@ async function parser(options) {
         // TODO: maybe handle result
       }
     }
-  });
+  };
 }
 
 module.exports = parser;

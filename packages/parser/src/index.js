@@ -9,6 +9,7 @@ const { getHoverText } = require("./lib.js");
 const { getTermTitle } = require("./lib.js");
 
 const parser = require("./commands/parser.js");
+const glossary = require("./commands/glossary.js");
 
 const DEFAULT_OPTIONS = {
   docsDir: "./docs/",
@@ -222,7 +223,8 @@ module.exports = function (context, opts) {
           options.debug = args.debug ? true : false;
 
           console.log("Alphabetical list of terms");
-          getDirectories(options.termsDir + "*.md*", parseGlossary);
+          glossary(options);
+          //getDirectories(options.termsDir + "*.md*", parseGlossary);
         });
     },
   };
