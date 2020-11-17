@@ -28,6 +28,15 @@ describe('add import statement', () => {
     });
 });
 
+describe('add import statement in empty file', () => {
+    const content = '';
+    var newContent = addJSImportStatement(content);
+    it('gets the updated content with the import statement', () => {
+      expect(newContent).toBe(content
+        + '\n\nimport Term from "@docusaurus-terminology/term";\n');
+    });
+});
+
 
 describe('get the term name and reference from the regex match', () => {
     const matchPattern = '%%Term name$term%%';
@@ -35,6 +44,15 @@ describe('get the term name and reference from the regex match', () => {
     var tokens = getCleanTokens(matchPattern, separator);
     it('the clean tokens', () => {
       expect(tokens).toStrictEqual(['Term name', 'term']);
+    });
+});
+
+describe('get the term name and reference (without the file extension)', () => {
+    const matchPattern = '%%Mr.Doe$term.md%%';
+    const separator = '$';
+    var tokens = getCleanTokens(matchPattern, separator);
+    it('the clean tokens', () => {
+      expect(tokens).toStrictEqual(['Mr.Doe', 'term']);
     });
 });
 

@@ -21,7 +21,8 @@ async function preloadTerms(termsFiles) {
     let fileContent = await fs.promises.readFile(term, "utf8");
     let { metadata } = parseMD(fileContent);
     if (!metadata.id) {
-      console.log(`the file "${term}" does not have an id and so is excluded from the term parsing functionality`);
+      console.log(`the file "${term}" does not have an id and so is ` +
+      `excluded from the term parsing functionality`);
     } else {
       const data = {
         content: fileContent,
@@ -38,8 +39,10 @@ async function preloadTerms(termsFiles) {
 
 function getCleanTokens(match, separator) {
   let tokens = match.split(separator);
+  // remove file extension, if present
+  tokens[1] = tokens[1].replace(/\.[^/.]+$/, "");
   tokens.forEach((token, index) => {
-    tokens[index] = token.replace(/[\%.]/g, "")
+    tokens[index] = token.replace(/[\%]/g, "");
   });
   return tokens;
 }
@@ -49,7 +52,8 @@ function splice(cont, idx, rem, str) {
 }
 
 function addJSImportStatement(content) {
-  const importStatement = `\n\nimport Term from "@docusaurus-terminology/term";\n`;
+  const importStatement = `\n\nimport Term ` +
+  `from "@docusaurus-terminology/term";\n`;
   const index = content.indexOf("---", 1) + "---".length;
   return splice(content, index, 0, importStatement);
 }
