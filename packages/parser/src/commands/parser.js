@@ -16,7 +16,7 @@ async function parser(options) {
     "g"
   );
   const allFiles = await getFiles(options.docsDir, options.noParseFiles);
-  allFiles.forEach(async (filepath, index) => {
+  for (const filepath of allFiles) {
     let content = await fs.promises.readFile(filepath, "utf8");
     // get all regex matches
     const regex_matches = content.match(regex);
@@ -51,7 +51,7 @@ async function parser(options) {
         // TODO: maybe handle result
       }
     }
-  };
+  }
 }
 
 module.exports = parser;
