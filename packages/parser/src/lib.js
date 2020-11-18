@@ -3,6 +3,11 @@ const fs = require("fs");
 const parseMD = require("parse-md").default;
 const globby = require("globby");
 
+const glossaryHeader = `---
+id: glossary
+title: Glossary
+---`;
+
 Array.prototype.diff = function(a) {
     return this.filter(function(i) {return a.indexOf(i) < 0;});
 };
@@ -81,6 +86,18 @@ function getGlossaryTerm(term, path) {
   return `\n\n- **[${term.title}](${path})**: ${hover}\n`;
 }
 
+function getOrCreateGlossaryFile(path) {
+  let fileContent = "";
+  if(!fs.existsSync(path)) {
+    console.log("Glossary file does not exist in path: " + path + ". Creating...");
+    fileContent = addJSImportStatement(glossaryHeader);
+    fs.writeFileSync(path, fileContent, "utf8");
+  } else {
+    fileContent = fs.readFileSync(path, "utf8");
+  }
+  return fileContent;
+}
+
 function addImportStatement(content, index, string) {
   if (index > 0) {
     return (
@@ -131,5 +148,6 @@ module.exports = {
   addJSImportStatement: addJSImportStatement,
   sortFiles: sortFiles,
   cleanGlossaryTerms: cleanGlossaryTerms,
-  getGlossaryTerm: getGlossaryTerm
+  getGlossaryTerm: getGlossaryTerm,
+  getOrCreateGlossaryFile: getOrCreateGlossaryFile
 };

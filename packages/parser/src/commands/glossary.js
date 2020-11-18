@@ -8,7 +8,8 @@ const {
   addJSImportStatement,
   sortFiles,
   cleanGlossaryTerms,
-  getGlossaryTerm
+  getGlossaryTerm,
+  getOrCreateGlossaryFile
 } = require("../lib.js");
 
 async function glossary(options) {
@@ -24,7 +25,8 @@ async function glossary(options) {
     const glossaryTerm = getGlossaryTerm(term, relativePath);
     glossaryContent = glossaryContent + glossaryTerm;
   }
-  console.log(glossaryContent);
+  const glossaryFile = getOrCreateGlossaryFile(options.glossaryFilepath);
+  fs.writeFileSync(options.glossaryFilepath, glossaryFile+glossaryContent, "utf8");
 };
 
 module.exports = glossary;
