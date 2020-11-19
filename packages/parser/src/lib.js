@@ -90,7 +90,7 @@ function getOrCreateGlossaryFile(path) {
   let fileContent = "";
   if(!fs.existsSync(path)) {
     console.log("Glossary file does not exist in path: " + path + ". Creating...");
-    fileContent = addJSImportStatement(glossaryHeader);
+    fileContent = glossaryHeader;
     fs.writeFileSync(path, fileContent, "utf8");
   } else {
     fileContent = fs.readFileSync(path, "utf8");
