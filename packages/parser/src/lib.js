@@ -98,18 +98,6 @@ function getOrCreateGlossaryFile(path) {
   return fileContent;
 }
 
-function addImportStatement(content, index, string) {
-  if (index > 0) {
-    return (
-      content.substring(0, index) +
-      string +
-      content.substring(index, content.length)
-    );
-  } else {
-    return string + content;
-  }
-}
-
 function getRelativePath(source, target) {
   // calculate relative path from each file's parent dir
   const sourceDir = source.substr(0, source.lastIndexOf("/"));
@@ -125,24 +113,9 @@ function getRelativePath(source, target) {
   return final_url.replace(/(\.mdx?)/g, "")
 }
 
-async function getHoverText(filePath) {
-  let data = await fs.promises.readFile(filePath, "utf8");
-  let { metadata } = parseMD(data);
-  return metadata.hoverText;
-}
-
-function getTermTitle(filePath) {
-  let data = fs.readFileSync(filePath, "utf8");
-  let { metadata } = parseMD(data);
-  return metadata.title;
-}
-
 module.exports = {
   getFiles: getFiles,
-  addImportStatement: addImportStatement,
   getRelativePath: getRelativePath,
-  getHoverText: getHoverText,
-  getTermTitle: getTermTitle,
   getCleanTokens: getCleanTokens,
   preloadTerms: preloadTerms,
   addJSImportStatement: addJSImportStatement,
