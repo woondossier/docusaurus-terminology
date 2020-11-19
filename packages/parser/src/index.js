@@ -30,8 +30,8 @@ module.exports = function (context, opts) {
     extendCli(cli) {
       cli
         .command("parse")
-        .option("-dr, --dry-run", "see what the command will do")
-        .option("-d, --debug", "see all log output of the command")
+        .option("--dry-run", "see what the command will do")
+        .option("--debug", "see all log output of the command")
         .description("Parse all md files to replace terms")
         .action((args) => {
           // check for dry-run and debug
@@ -43,8 +43,8 @@ module.exports = function (context, opts) {
         });
       cli
         .command("glossary")
-        .option("-dr, --dry-run", "see what the command will do")
-        .option("-d, --debug", "see all log output of the command")
+        .option("--dry-run", "see what the command will do")
+        .option("--debug", "see all log output of the command")
         .description("Generate a glossary of terms")
         .action((args) => {
           // check for dry-run and debug

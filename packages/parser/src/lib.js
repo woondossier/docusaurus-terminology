@@ -26,8 +26,8 @@ async function preloadTerms(termsFiles) {
     let fileContent = await fs.promises.readFile(term, "utf8");
     let { metadata } = parseMD(fileContent);
     if (!metadata.id) {
-      console.log(`the file "${term}" does not have an id and so is ` +
-      `excluded from the term parsing functionality`);
+      console.log(`The file "${term}" does not have an id and so is ` +
+      `excluded from the term parsing functionality\n`);
     } else {
       const data = {
         content: fileContent,

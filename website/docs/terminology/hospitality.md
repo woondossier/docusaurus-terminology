@@ -1,6 +1,6 @@
 ---
 id: hospitality
-title: hospitality
+title: Hospitality
 hoverText: The friendly and generous reception and entertainment of guests, visitors, or strangers
 ---
 
