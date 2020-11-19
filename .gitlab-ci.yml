@@ -1,5 +1,16 @@
 stages:
+  - test
   - build
+
+test:
+  image: node:lts
+  stage: test
+  before_script:
+    - yarn
+    - yarn run lerna bootstrap
+  script:
+    - yarn test --verbose
+
 
 build:
   image: node:lts
