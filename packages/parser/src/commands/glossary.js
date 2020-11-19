@@ -2,13 +2,12 @@ const fs = require("fs");
 const path = require("path");
 const {
   getFiles,
-  getCleanTokens,
   preloadTerms,
-  getRelativePath,
-  addJSImportStatement,
-  sortFiles,
+  getCleanTokens,
   cleanGlossaryTerms,
+  getRelativePath,
   getGlossaryTerm,
+  sortFiles,
   getOrCreateGlossaryFile
 } = require("../lib.js");
 
@@ -17,8 +16,9 @@ async function glossary(options) {
   const termsFiles = await getFiles(options.termsDir, options.noParseFiles)
   const termsData = await preloadTerms(termsFiles);
   // remove terms that don't have title or hoverText
-  const cleanTerms = cleanGlossaryTerms(termsData);
+  let cleanTerms = cleanGlossaryTerms(termsData);
   // sort termsData alphabetically
+  sortFiles(cleanTerms);
   for (const term of cleanTerms) {
     const current_file_path = path.resolve(process.cwd(), options.glossaryFilepath);
     const relativePath = getRelativePath(current_file_path, term.filepath);
