@@ -93,7 +93,10 @@ function getOrCreateGlossaryFile(path) {
     fileContent = glossaryHeader;
     fs.writeFileSync(path, fileContent, "utf8");
   } else {
-    fileContent = fs.readFileSync(path, "utf8");
+    // keep only the header of file
+    const content = fs.readFileSync(path, "utf8");
+    const index = content.indexOf("---", 1) + "---".length;
+    fileContent = content.slice(0,index);
   }
   return fileContent;
 }
