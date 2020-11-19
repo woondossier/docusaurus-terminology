@@ -2,4 +2,3 @@ node_modules
 *.swp
 lerna-debug.log
 packages/**/lib
-__snapshots__

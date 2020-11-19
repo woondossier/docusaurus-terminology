@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Term renders 1`] = `
+Array [
+  <a
+    aria-describedby={null}
+    className=""
+    href="test"
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onMouseLeave={[Function]}
+    onMouseOver={[Function]}
+    onTouchEnd={[Function]}
+    onTouchStart={[Function]}
+    title={null}
+  >
+    <span
+      style={
+        Object {
+          "fontWeight": "bold",
+        }
+      }
+    >
+      test
+    </span>
+  </a>,
+  ",",
+]
+`;
