@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-var gitDiff = require('git-diff')
+const gitDiff = require("git-diff")
 const {
   getFiles,
   getCleanTokens,
@@ -10,33 +10,37 @@ const {
 } = require("../lib.js");
 
 async function parser(options) {
-  if(options.dryRun) console.info("\n* Dry run enabled *\n");
-  if (!options.debug) {
-    console = console || {};
-    console.log = function(){};
-  }
-  console.log("\n* Debug logging enabled *\n");
+  options.dryRun && console.log("\n* Dry run enabled *\n\n");
+  options.debug && console.log("\n* Debug logging enabled *\n");
+
+  // output file for logs
+  const outputFile = options.logOutputFile;
+  fs.unlink(outputFile, function(err) { if(err) return; });
+  var logger = fs.createWriteStream(outputFile, {
+    flags: "a" // "a" for appending (old data will be preserved)
+  });
+
   const termsFiles = await getFiles(options.termsDir, options.noParseFiles);
-  console.log('Load the term files');
+  options.debug && logger.write("Load the term files\n");
   const termsData = await preloadTerms(termsFiles);
   const regex = new RegExp(
     "\\%%.*?\\" + options.patternSeparator + ".*?\\%%",
     "g"
   );
-  console.log('Iterate through the files, looking for term patterns');
+  console.log("Iterate through the files, looking for term patterns");
   const allFiles = await getFiles(options.docsDir, options.noParseFiles);
   for (const filepath of allFiles) {
-    console.log(`File: ${filepath}`);
+    options.debug && logger.write(`\n* File: ${filepath}\n`);
     let content = await fs.promises.readFile(filepath, "utf8");
-    console.log(`  Looking for the pattern ` +
-      `"%%term_text${options.patternSeparator}term_name%%"...`);
+    options.debug && logger.write(`Looking for the pattern ` +
+      `"%%term_text${options.patternSeparator}term_name%%"...\n`);
     // get all regex matches
     const regex_matches = content.match(regex);
     // iterate only pages with regex matches
     if(regex_matches !== null) {
-      console.log(`  ${regex_matches.length} match(es) found`);
+      options.debug && logger.write(`${regex_matches.length} match(es) found\n`);
       for(match of regex_matches) {
-        console.log(`  Replace "${match}" with the <Term /> component`)
+        options.debug && logger.write(`Replace "${match}" with the <Term /> component\n`)
         const tokens = getCleanTokens(match, options.patternSeparator);
         // for ease of use
         const text = tokens[0];
@@ -64,19 +68,20 @@ async function parser(options) {
       // in the opened file
       // check: dry-run
       if(options.dryRun) {
-        //${content}\n
-        console.info(`\n  These changes will not be applied in the file ` +
-        `${filepath}\n  Showing the output below:\n\n`);
         var oldContent = await fs.promises.readFile(filepath, "utf8");
-        var diff = gitDiff(oldContent, content, {color: true});
-        console.info(diff);
+        var diff = gitDiff(oldContent, content);
+        await fs.promises.appendFile(outputFile,
+          `\n! These changes will not be applied in the file ` +
+          `${filepath}\nShowing the output below:\n\n${diff}\n\n`,
+          function (err) {
+            if (err) console.log(err);
+          }
+        );
       } else {
-        console.log("  Write file with updated content\n")
+        options.debug && logger.write("Write file with updated content\n");
         const result = await fs.promises.writeFile(filepath, content, "utf-8");
         // TODO: maybe handle result
       }
-    } else {
-      console.log("  No matches found\n")
     }
   }
 }

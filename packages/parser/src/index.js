@@ -7,6 +7,7 @@ const DEFAULT_OPTIONS = {
   docsDir: "./docs/",
   termsDir: "./docs/terms/",
   glossaryFilepath: "./docs/glossary.md",
+  logOutputFile: "log.txt",
   patternSeparator: "|",
   noParseFiles: [],
   noGlossaryFiles: [],

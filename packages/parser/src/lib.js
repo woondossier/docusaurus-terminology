@@ -15,7 +15,7 @@ Array.prototype.diff = function(a) {
 async function getFiles(basePath, noParseFiles) {
   let files = [];
   // get all files under dir
-  files = await globby(basePath+'**/*.{md,mdx}');
+  files = await globby(basePath+"**/*.{md,mdx}");
   // filter with the noParseFiles option and return
   return files.diff(noParseFiles);
 }
@@ -27,7 +27,7 @@ async function preloadTerms(termsFiles) {
     let { metadata } = parseMD(fileContent);
     if (!metadata.id) {
       console.log(`The file "${term}" does not have an id and so is ` +
-      `excluded from the term parsing functionality\n`);
+      `excluded from the term parsing functionality`);
     } else {
       const data = {
         content: fileContent,
