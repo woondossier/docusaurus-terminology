@@ -19,6 +19,7 @@ async function parser(options) {
   var logger = fs.createWriteStream(outputFile, {
     flags: "a" // "a" for appending (old data will be preserved)
   });
+  let nmbMatches = 0;
 
   const termsFiles = await getFiles(options.termsDir, options.noParseFiles);
   options.debug && logger.write("Load the term files\n");
@@ -39,6 +40,7 @@ async function parser(options) {
     // iterate only pages with regex matches
     if(regex_matches !== null) {
       options.debug && logger.write(`${regex_matches.length} match(es) found\n`);
+      nmbMatches += regex_matches.length;
       for(match of regex_matches) {
         options.debug && logger.write(`Replace "${match}" with the <Term /> component\n`)
         const tokens = getCleanTokens(match, options.patternSeparator);
@@ -84,6 +86,7 @@ async function parser(options) {
       }
     }
   }
+  console.log(`\u2713 ${nmbMatches} term replacements completed.`)
 }
 
 module.exports = parser;

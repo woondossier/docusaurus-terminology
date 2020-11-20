@@ -26,7 +26,7 @@ async function preloadTerms(termsFiles) {
     let fileContent = await fs.promises.readFile(term, "utf8");
     let { metadata } = parseMD(fileContent);
     if (!metadata.id) {
-      console.log(`The file "${term}" does not have an id and so is ` +
+      console.log(`! The file "${term}" does not have an id and so is ` +
       `excluded from the term parsing functionality`);
     } else {
       const data = {
@@ -89,7 +89,7 @@ function getGlossaryTerm(term, path) {
 function getOrCreateGlossaryFile(path) {
   let fileContent = "";
   if(!fs.existsSync(path)) {
-    console.log("Glossary file does not exist in path: " + path + ". Creating...");
+    console.log(`! Glossary file does not exist in path: "${path}". Creating...`);
     fileContent = glossaryHeader;
     fs.writeFileSync(path, fileContent, "utf8");
   } else {

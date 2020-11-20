@@ -27,6 +27,7 @@ async function glossary(options) {
   }
   const glossaryFile = getOrCreateGlossaryFile(options.glossaryFilepath);
   fs.writeFileSync(options.glossaryFilepath, glossaryFile+glossaryContent, "utf8");
+  console.log(`\u2713 ${cleanTerms.length} terms found.`)
 };
 
 module.exports = glossary;
