@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus-terminology/parser",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.55+1a7580a",
   "description": "Parse terms and link them to their terminology page and generate glossary based on those terms",
   "main": "src/index.js",
   "author": "Thanasis Katsadas <kathan@admin.grnet.gr>",
@@ -23,5 +23,6 @@
     "eslint": "^7.11.0",
     "eslint-config-prettier": "6.12.0",
     "prettier": "2.1.2"
-  }
+  },
+  "gitHead": "1a7580af2af4f2d6178bd6bcf29f13d9e9cf9b2d"
 }

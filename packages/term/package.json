@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus-terminology/term",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.55+1a7580a",
   "description": "React component to render Terms",
   "author": "Thanasis Katsadas <kathan@admin.grnet.gr>",
   "homepage": "",
@@ -40,5 +40,6 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.1.2"
-  }
+  },
+  "gitHead": "1a7580af2af4f2d6178bd6bcf29f13d9e9cf9b2d"
 }
