@@ -6,6 +6,9 @@
   "author": "Thanasis Katsadas <kathan@admin.grnet.gr>",
   "license": "MIT",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "lint": "prettier --check src",
     "lint:fix": "prettier --write src",
