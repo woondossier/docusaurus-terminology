@@ -19,9 +19,10 @@ module.exports = function (context, opts) {
   let options = {};
   options = Object.assign({}, DEFAULT_OPTIONS, opts);
   options.termsDir = path.resolve(options.termsDir) + "/";
+  options.docsDir = path.resolve(options.docsDir) + "/";
   options.glossaryFilepath = path.resolve(options.glossaryFilepath);
   options.noParseFiles.forEach((item, index) => {
-    options.noParseFiles[index] = path.resolve(process.cwd(), options.termsDir, item);
+    options.noParseFiles[index] = path.resolve(process.cwd(), item);
   });
 
   return {

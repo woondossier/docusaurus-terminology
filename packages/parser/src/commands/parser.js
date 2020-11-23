@@ -28,10 +28,15 @@ async function parser(options) {
         const text = tokens[0];
         const ref = tokens[1];
         const termReference = termsData.find(item => item.id === ref);
-        const current_file_path = path.resolve(process.cwd(), filepath);
-        const relativePath = getRelativePath(current_file_path, termReference.filepath);
-        const component = `<Term popup="${termReference.hoverText}" reference="${relativePath}">${text}</Term>`;
-        content = content.replace(match, component);
+        if(!termReference) {
+          console.log(`\nParsing file "${filepath}"...`);
+          console.log(`Could not find the correct term from id "${ref}", maybe typo or missing term file?\n`);
+          process.exit(1);
+        }
+          const current_file_path = path.resolve(process.cwd(), filepath);
+          const relativePath = getRelativePath(current_file_path, termReference.filepath);
+          const component = `<Term popup="${termReference.hoverText}" reference="${relativePath}">${text}</Term>`;
+          content = content.replace(match, component);
       };
       // since we are inside the if function
       // we can safely assume that we have
