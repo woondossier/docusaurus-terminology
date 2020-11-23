@@ -14,9 +14,6 @@
   "files": [
     "lib"
   ],
-  "publishConfig": {
-    "registry": "https://registry.yarnpkg.com"
-  },
   "scripts": {
     "lint": "prettier --check src",
     "lint:fix": "prettier --write src",
