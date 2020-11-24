@@ -24,8 +24,5 @@
     "jest": "^26.5.2",
     "lerna": "^3.22.1",
     "regenerator-runtime": "^0.13.7"
-  },
-  "dependencies": {
-    "git-diff": "^2.0.6"
   }
 }

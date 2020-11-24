@@ -17,7 +17,8 @@
   },
   "dependencies": {
     "globby": "^11.0.1",
-    "parse-md": "^2.0.4"
+    "parse-md": "^2.0.4",
+    "git-diff": "^2.0.6"
   },
   "devDependencies": {
     "eslint": "^7.11.0",
