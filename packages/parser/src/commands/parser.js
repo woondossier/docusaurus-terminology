@@ -10,19 +10,19 @@ const {
 } = require("../lib.js");
 
 async function parser(options) {
-  options.dryRun && console.log("\n* Dry run enabled *\n\n");
+  options.dryRun && console.log("\n* Dry run enabled *\n");
   options.debug && console.log("\n* Debug logging enabled *\n");
 
   // output file for logs
   const outputFile = options.logOutputFile;
   fs.unlink(outputFile, function(err) { if(err) return; });
-  var logger = fs.createWriteStream(outputFile, {
-    flags: "a" // "a" for appending (old data will be preserved)
-  });
+//  var logger = fs.createWriteStream(outputFile, {
+//    flags: "a" // "a" for appending (old data will be preserved)
+//  });
   let nmbMatches = 0;
 
   const termsFiles = await getFiles(options.termsDir, options.noParseFiles);
-  options.debug && logger.write("Load the term files\n");
+//  options.debug && logger.write("Load the term files\n");
   const termsData = await preloadTerms(termsFiles);
   const regex = new RegExp(
     "\\%%.*?\\" + options.patternSeparator + ".*?\\%%",
@@ -31,18 +31,18 @@ async function parser(options) {
   console.log("Iterate through the files, looking for term patterns");
   const allFiles = await getFiles(options.docsDir, options.noParseFiles);
   for (const filepath of allFiles) {
-    options.debug && logger.write(`\n* File: ${filepath}\n`);
+//    options.debug && logger.write(`\n* File: ${filepath}\n`);
     let content = await fs.promises.readFile(filepath, "utf8");
-    options.debug && logger.write(`Looking for the pattern ` +
-      `"%%term_text${options.patternSeparator}term_name%%"...\n`);
+//    options.debug && logger.write(`Looking for the pattern ` +
+//      `"%%term_text${options.patternSeparator}term_name%%"...\n`);
     // get all regex matches
     const regex_matches = content.match(regex);
     // iterate only pages with regex matches
     if(regex_matches !== null) {
-      options.debug && logger.write(`${regex_matches.length} match(es) found\n`);
+//      options.debug && logger.write(`${regex_matches.length} match(es) found\n`);
       nmbMatches += regex_matches.length;
       for(match of regex_matches) {
-        options.debug && logger.write(`Replace "${match}" with the <Term /> component\n`)
+//        options.debug && logger.write(`Replace "${match}" with the <Term /> component\n`)
         const tokens = getCleanTokens(match, options.patternSeparator);
         // for ease of use
         const text = tokens[0];
@@ -50,7 +50,8 @@ async function parser(options) {
         const termReference = termsData.find(item => item.id === ref);
         if(!termReference) {
           console.log(`\nParsing file "${filepath}"...`);
-          console.log(`Could not find the correct term from id "${ref}", maybe typo or missing term file?\n`);
+          console.log(`! Could not find the correct term from id "${ref}", ` +
+            `maybe typo or missing term file?\n`);
           process.exit(1);
         }
         const current_file_path = path.resolve(process.cwd(), filepath);
@@ -80,7 +81,7 @@ async function parser(options) {
           }
         );
       } else {
-        options.debug && logger.write("Write file with updated content\n");
+//        options.debug && logger.write("Write file with updated content\n");
         const result = await fs.promises.writeFile(filepath, content, "utf-8");
         // TODO: maybe handle result
       }

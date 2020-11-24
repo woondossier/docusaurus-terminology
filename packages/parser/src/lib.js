@@ -26,8 +26,8 @@ async function preloadTerms(termsFiles) {
     let fileContent = await fs.promises.readFile(term, "utf8");
     let { metadata } = parseMD(fileContent);
     if (!metadata.id) {
-      console.log(`! The file "${term}" does not have an id and so is ` +
-      `excluded from the term parsing functionality`);
+      console.log(`! The file "${term}" lacks the id attribute and so is ` +
+      `excluded from the term parsing functionality.`);
     } else {
       const data = {
         content: fileContent,
@@ -75,7 +75,9 @@ function sortFiles(files) {
 
 function cleanGlossaryTerms(terms) {
   const cleanTerms = terms.filter(item => {
-    return item.title && item.title.length > 0 ? true : false;
+    return item.title && item.title.length > 0 ? true : console.log(
+      `! The file ${item.filepath} lacks the title attribute and so is ` +
+      `excluded from the glossary.`);
   });
   // handle debug case here
   return cleanTerms;
@@ -83,7 +85,9 @@ function cleanGlossaryTerms(terms) {
 
 function getGlossaryTerm(term, path) {
   const hover = term.hoverText != undefined ? term.hoverText : "";
-  return `\n\n- **[${term.title}](${path})**: ${hover}\n`;
+  return hover.length > 0 ?
+    `\n\n- **[${term.title}](${path})**: ${hover}\n` :
+    `\n\n- **[${term.title}](${path})**`;
 }
 
 function getOrCreateGlossaryFile(path) {
