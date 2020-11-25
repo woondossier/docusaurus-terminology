@@ -27,14 +27,20 @@ async function glossary(options) {
     glossaryContent = glossaryContent + glossaryTerm;
   }
   if(options.dryRun) {
-    fs.writeFileSync(options.logOutputFile,
-      `\n! These changes will not be applied in the glossary file.` +
-      `\nShowing the output below:\n\n${(glossaryContent)}\n\n`, "utf8",
-      (error) => { if (error) throw error; });
+    console.log(`\n! These changes will not be applied in the glossary file.` +
+      `\nShowing the output below:\n\n${(glossaryContent)}\n\n`);
   } else {
     const glossaryFile = getOrCreateGlossaryFile(options.glossaryFilepath);
-    fs.writeFileSync(options.glossaryFilepath, glossaryFile+glossaryContent,
-    "utf8", (error) => { if (error) throw error; });
+    try {
+      const result = await fs.promises.writeFile(
+        options.glossaryFilepath, glossaryFile+glossaryContent, "utf-8");
+    } catch (err) {
+      console.log(`\u26A0  An error occurred while writing new data to ` +
+        `the file: ${options.glossaryFilepath}\n${err}`);
+      process.exit(1);
+    } finally {
+      console.log(`\u00BB Glossary is updated.`);
+    }
   }
   console.log(`\u2713 ${cleanTerms.length} terms found.`)
 };
