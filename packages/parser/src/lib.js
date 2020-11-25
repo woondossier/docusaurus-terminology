@@ -12,10 +12,16 @@ Array.prototype.diff = function(a) {
     return this.filter(function(i) {return a.indexOf(i) < 0;});
 };
 
-async function getFiles(basePath, noParseFiles) {
+async function getFiles(basePath, noParseFiles, optionName) {
   let files = [];
   // get all files under dir
-  files = await globby(basePath+"**/*.{md,mdx}");
+  files = await globby(basePath+"**/*.{md,mdx}").catch(function(err) {
+    console.log(`\u26A0  Not able to get files from folder: ${basePath}`);
+    console.log(`Check the path in option ${optionName}`)
+    process.exit(1);
+  });
+  !(files.length) && console.log(`\u26A0 No  files found. Maybe wrong path` +
+    ` "${basePath}" in option ${optionName} or empty folder`);
   // filter with the noParseFiles option and return
   return files.diff(noParseFiles);
 }

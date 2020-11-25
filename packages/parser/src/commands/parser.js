@@ -21,7 +21,7 @@ async function parser(options) {
 //  });
   let nmbMatches = 0;
 
-  const termsFiles = await getFiles(options.termsDir, options.noParseFiles);
+  const termsFiles = await getFiles(options.termsDir, options.noParseFiles, "termsDir");
 //  options.debug && logger.write("Load the term files\n");
   const termsData = await preloadTerms(termsFiles);
   const regex = new RegExp(
@@ -29,7 +29,7 @@ async function parser(options) {
     "g"
   );
   console.log("Iterate through the files, looking for term patterns");
-  const allFiles = await getFiles(options.docsDir, options.noParseFiles);
+  const allFiles = await getFiles(options.docsDir, options.noParseFiles, "docsDir");
   for (const filepath of allFiles) {
 //    options.debug && logger.write(`\n* File: ${filepath}\n`);
     let content = await fs.promises.readFile(filepath, "utf8", (err, data) => {
