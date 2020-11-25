@@ -12,8 +12,10 @@ const {
 async function parser(options) {
   options.dryRun && console.log("\n* Dry run enabled *\n");
   options.debug && console.log("\n* Debug logging enabled *\n");
+
   // Load the term files
   let termsFiles = [];
+
   try {
     termsFiles = await getFiles(options.termsDir, options.noParseFiles);
   } catch (err) {
@@ -21,14 +23,18 @@ async function parser(options) {
     console.log(`Check the path in option "termsDir"\n\nError: ${err}`);
     process.exit(1);
   }
-  if (!termsFiles.length) {
+
+  if (termsFiles.length == 0) {
     console.log(`\u26A0 No term files found. Might be wrong path` +
     ` "${options.termsDir}" in option "termsDir" or empty folder`);
     process.exit(1);
   }
+
   const termsData = await preloadTerms(termsFiles);
   console.log("Iterate through the .md(x) files, looking for term patterns");
+
   let allFiles = [];
+
   try {
     allFiles = await getFiles(options.docsDir, options.noParseFiles);
   } catch (err) {
@@ -36,23 +42,30 @@ async function parser(options) {
     console.log(`Check the path in option "docsDir"\n\nError: ${err}`);
     process.exit(1);
   }
+
   if (!allFiles.length) {
     console.log(`\u26A0 No files found. Might be wrong path` +
     ` "${options.docsDir}" in option "docsDir" or empty folder`);
     // process.exit(1);
   }
+
   // start counting number of term replacements
   let nmbMatches = 0;
+
   const regex = new RegExp(
     "\\%%.*?\\" + options.patternSeparator + ".*?\\%%",
     "g"
   );
+
   for (const filepath of allFiles) {
-    let content = await fs.promises.readFile(filepath, "utf8").catch(
-      function(err) {
-        console.log(`\u26A0 Error occurred while reading file: ${filepath}`);
-        process.exit(1);
-    });
+    let content = "";
+    try {
+      content = await fs.promises.readFile(filepath, "utf8");
+    } catch (err) {
+      console.log(`\u26A0 Error occurred while reading file: ${filepath}`);
+      process.exit(1);
+    }
+
     const oldContent = content;
     // get all regex matches
     const regex_matches = content.match(regex);

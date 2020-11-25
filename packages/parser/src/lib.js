@@ -12,14 +12,23 @@ Array.prototype.diff = function(a) {
     return this.filter(function(i) {return a.indexOf(i) < 0;});
 };
 
-async function getFiles(basePath, noParseFiles) {
+async function getFiles(basePath, noParseFiles, noThrow=false) {
+  // Added the noThrow optional param
+  // in case there is a call to this
+  // function that does not want to
+  // handle the error thrown
   let files = [];
   // get all files under dir
-  files = await globby(basePath+"**/*.{md,mdx}", function(err) {
-    if (err) {
+  try {
+    // get all md files from basePath
+    files = await globby(basePath+"**/*.{md,mdx}");
+  } catch (err) {
+    if (noThrow) {
+      // handle error here
+    } else {
       throw err;
     }
-  });
+  };
   // filter with the noParseFiles option and return
   return files.diff(noParseFiles);
 }
@@ -27,16 +36,23 @@ async function getFiles(basePath, noParseFiles) {
 async function preloadTerms(termsFiles) {
   let terms = [];
   for (const term of termsFiles) {
-    let fileContent = await fs.promises.readFile(term, "utf8", (err, data) => {
+    let fileContent = "";
+    try {
+      fileContent = await fs.promises.readFile(term, "utf8");
+    } catch (err) {
       (err.code === 'ENOENT') ?
-      console.log(`File ${term} not found in preloadTerms().`) :
+      console.log(`File ${term} not found.`) :
       console.log(err);
-    });
+      process.exit(1);
+    }
     let { metadata } = parseMD(fileContent);
     if (!metadata.id) {
-      console.log(`! The file "${term}" lacks the id attribute and so is ` +
+      console.log(`! The term "${term}" lacks the attribute "id" and so is ` +
       `excluded from the term parsing functionality.`);
     } else {
+      if (!metadata.hoverText || metadata.hoverText.length == 0) {
+        console.log(`! The term "${term}" lacks the attribute "hoverText", so no popup text will be shown.`);
+      }
       const data = {
         content: fileContent,
         filepath:  term,
@@ -84,7 +100,7 @@ function sortFiles(files) {
 function cleanGlossaryTerms(terms) {
   const cleanTerms = terms.filter(item => {
     return item.title && item.title.length > 0 ? true : console.log(
-      `! The file ${item.filepath} lacks the title attribute and so is ` +
+      `! The file ${item.filepath} lacks the attribute "title" and so is ` +
       `excluded from the glossary.`);
   });
   // handle debug case here
@@ -103,10 +119,12 @@ function getOrCreateGlossaryFile(path) {
   if(!fs.existsSync(path)) {
     console.log(`! Glossary file does not exist in path: "${path}". Creating...`);
     fileContent = glossaryHeader;
+    // TODO: Replace with async fs function
     fs.writeFileSync(path, fileContent, "utf8",
       (error) => { if (error) throw error; });
   } else {
     // keep only the header of file
+    // TODO: Replace with async fs function
     const content = fs.readFileSync(path, "utf8", (err, data) => {
       console.log(err);
     });
