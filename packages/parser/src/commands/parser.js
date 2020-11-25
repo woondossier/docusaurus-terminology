@@ -32,7 +32,10 @@ async function parser(options) {
   const allFiles = await getFiles(options.docsDir, options.noParseFiles);
   for (const filepath of allFiles) {
 //    options.debug && logger.write(`\n* File: ${filepath}\n`);
-    let content = await fs.promises.readFile(filepath, "utf8");
+    let content = await fs.promises.readFile(filepath, "utf8", (err, data) => {
+      (err.code === 'ENOENT') ? console.log(`File ${filepath} not found`) :
+      console.log(err);
+    });
 //    options.debug && logger.write(`Looking for the pattern ` +
 //      `"%%term_text${options.patternSeparator}term_name%%"...\n`);
     // get all regex matches
