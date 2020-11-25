@@ -30,10 +30,12 @@ async function glossary(options) {
     const outputFile = options.logOutputFile;
     fs.writeFileSync(outputFile,
       `\n! These changes will not be applied in the glossary file.` +
-      `\nShowing the output below:\n\n${(glossaryContent)}\n\n`, "utf8");
+      `\nShowing the output below:\n\n${(glossaryContent)}\n\n`, "utf8",
+      (error) => { if (error) throw error; });
   } else {
     const glossaryFile = getOrCreateGlossaryFile(options.glossaryFilepath);
-    fs.writeFileSync(options.glossaryFilepath, glossaryFile+glossaryContent, "utf8");
+    fs.writeFileSync(options.glossaryFilepath, glossaryFile+glossaryContent,
+    "utf8", (error) => { if (error) throw error; });
   }
   console.log(`\u2713 ${cleanTerms.length} terms found.`)
 };

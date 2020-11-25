@@ -23,7 +23,11 @@ async function getFiles(basePath, noParseFiles) {
 async function preloadTerms(termsFiles) {
   let terms = [];
   for (const term of termsFiles) {
-    let fileContent = await fs.promises.readFile(term, "utf8");
+    let fileContent = await fs.promises.readFile(term, "utf8", (err, data) => {
+      (err.code === 'ENOENT') ?
+      console.log(`File ${term} not found in preloadTerms().`) :
+      console.log(err);
+    });
     let { metadata } = parseMD(fileContent);
     if (!metadata.id) {
       console.log(`! The file "${term}" lacks the id attribute and so is ` +
@@ -95,10 +99,13 @@ function getOrCreateGlossaryFile(path) {
   if(!fs.existsSync(path)) {
     console.log(`! Glossary file does not exist in path: "${path}". Creating...`);
     fileContent = glossaryHeader;
-    fs.writeFileSync(path, fileContent, "utf8");
+    fs.writeFileSync(path, fileContent, "utf8",
+      (error) => { if (error) throw error; });
   } else {
     // keep only the header of file
-    const content = fs.readFileSync(path, "utf8");
+    const content = fs.readFileSync(path, "utf8", (err, data) => {
+      console.log(err);
+    });
     const index = content.indexOf("---", 1) + "---".length;
     fileContent = content.slice(0,index);
   }

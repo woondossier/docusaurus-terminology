@@ -33,9 +33,11 @@ async function parser(options) {
   for (const filepath of allFiles) {
 //    options.debug && logger.write(`\n* File: ${filepath}\n`);
     let content = await fs.promises.readFile(filepath, "utf8", (err, data) => {
-      (err.code === 'ENOENT') ? console.log(`File ${filepath} not found`) :
+      (err.code === 'ENOENT') ?
+      console.log(`\u26A0  File ${filepath} not found`) :
       console.log(err);
     });
+    const oldContent = content;
 //    options.debug && logger.write(`Looking for the pattern ` +
 //      `"%%term_text${options.patternSeparator}term_name%%"...\n`);
     // get all regex matches
@@ -53,8 +55,8 @@ async function parser(options) {
         const termReference = termsData.find(item => item.id === ref);
         if(!termReference) {
           console.log(`\nParsing file "${filepath}"...`);
-          console.log(`! Could not find the correct term from id "${ref}", ` +
-            `maybe typo or missing term file?\n`);
+          console.log(`\u26A0  Could not find the correct term from id ` +
+          `"${ref}" in regex match "${match}". Maybe typo or missing term file?\n`);
           process.exit(1);
         }
         const current_file_path = path.resolve(process.cwd(), filepath);
@@ -74,19 +76,17 @@ async function parser(options) {
       // in the opened file
       // check: dry-run
       if(options.dryRun) {
-        var oldContent = await fs.promises.readFile(filepath, "utf8");
         var diff = gitDiff(oldContent, content);
         await fs.promises.appendFile(outputFile,
           `\n! These changes will not be applied in the file ` +
           `${filepath}\nShowing the output below:\n\n${diff}\n\n`,
-          function (err) {
-            if (err) console.log(err);
-          }
-        );
+          (error) => { if (error) throw error; });
       } else {
 //        options.debug && logger.write("Write file with updated content\n");
-        const result = await fs.promises.writeFile(filepath, content, "utf-8");
-        // TODO: maybe handle result
+        const result = await fs.promises.writeFile(filepath, content, "utf-8",
+          (error) => {
+            if (error) throw error;
+        });
       }
     }
   }
