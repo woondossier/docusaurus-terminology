@@ -27,8 +27,7 @@ async function glossary(options) {
     glossaryContent = glossaryContent + glossaryTerm;
   }
   if(options.dryRun) {
-    const outputFile = options.logOutputFile;
-    fs.writeFileSync(outputFile,
+    fs.writeFileSync(options.logOutputFile,
       `\n! These changes will not be applied in the glossary file.` +
       `\nShowing the output below:\n\n${(glossaryContent)}\n\n`, "utf8",
       (error) => { if (error) throw error; });
