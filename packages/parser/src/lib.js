@@ -116,6 +116,7 @@ function getGlossaryTerm(term, path) {
 
 function getOrCreateGlossaryFile(path) {
   let fileContent = "";
+  // TODO: Replace with async fs function
   if(!fs.existsSync(path)) {
     console.log(`! Glossary file does not exist in path: "${path}". Creating...`);
     fileContent = glossaryHeader;

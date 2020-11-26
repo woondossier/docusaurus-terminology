@@ -2,6 +2,7 @@ const path = require("path");
 
 const parser = require("./commands/parser.js");
 const glossary = require("./commands/glossary.js");
+const validateOptions = require("./validator.js");
 
 const DEFAULT_OPTIONS = {
   docsDir: "./docs/",
@@ -18,6 +19,7 @@ module.exports = function (context, opts) {
   // initialize options
   let options = {};
   options = Object.assign({}, DEFAULT_OPTIONS, opts);
+  validateOptions(options);
   options.termsDir = path.resolve(options.termsDir) + "/";
   options.docsDir = path.resolve(options.docsDir) + "/";
   options.glossaryFilepath = path.resolve(options.glossaryFilepath);
