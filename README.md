@@ -17,6 +17,13 @@ This plugin, once it's installed in a docusaurus project, parses docs in two way
   2. Generates a glossary page with all terms corresponding to the `*.md` files 
   under `docs/terms/`
 
+## Prerequisites
+
+In order to use this plugin, you will need:
+
+  1. Node.js version >= 10.15.1
+  2. Yarn version >= 1.5
+  3. Docusuarus v2 repository (tested against 2.0.0-alpha-65 and above)
 
 ## Installation
 
@@ -35,49 +42,22 @@ Then, you can add the plugin to `docusaurus.config.js` file of your repository:
 };
 ```
 
+Or, you can use it with extra options defined (with more examples in the next sections):
+
+```
+plugins: [
+  [
+    '@docusaurus-terminology/parser',
+    {
+      termsDir: './docs/terminology/'
+    }
+  ]
+]
+```
+
 ## Usage
 
-### Replace patterns with dynamical elements
-
-When writing docs inside `docs/*.md(x)` files, in order to refer to a term, 
-you may use the following syntax:
-
-
-```
-%%term_text|term_name%%
-```
-
-where:
-- `term_text`: The terminology text you want it to be visible in the documentation
-page
-- `term_name`: The filename of the term file, which resides under `./docs/terms` 
-directory
-
-After successfully running the script, the above occurrence will be replaced by 
-a React component, which will render `term_text` as a link to the corresponding 
-term page, which is in turn generated from the `term_name` attribute; 
-furthermore, *hovering* over `term_text` displays a term summary, as extracted 
-from the corresponding term page.
-
-### Example usage
-
-Say you want to reference a term that exists under the `./docs/terms/` directory,
-e.g. `./docs/terms/party.md`. You can use the following syntax to reference
-this term in your documentation page:
-
-```
-Some content that wants to reference the %%Party|party%% term
-```
-
-When the script runs, this will be replaced as follows:
-
-```
-Some content that wants to reference the <Term reference="party" popup="Popup text">Party</Term> term
-```
-
-which supports the functionality explained above.
-
-### How to correctly write a term
+### Defining a term
 
 This plugin assumes that you follow the structure, as explained below:
 
@@ -100,39 +80,76 @@ content here
 >attribute (along with the default docusaurus attributes), so the plugin can
 >fetch the correct popup text to show when referencing a term.
 
-### Running the script
 
-When you are finished referencing terms and have written corresponding term pages,
-you can test this locally by running the following command:
+### Use patterns to reference a term
+
+When writing docs inside `docs/*.md(x)` files, in order to refer to a term, 
+you may use the following syntax:
+
+
+```
+%%term_text|term_name%%
+```
+
+where:
+- `term_text`: The terminology text you want it to be visible in the documentation
+page
+- `term_name`: The id of the term file, which resides under `./docs/terms` 
+directory
+
+After successfully running the script, the above occurrence will be replaced by 
+a reference (technically a React component), which will render `term_text` as a link to the corresponding term page, which is in turn generated from the `term_name` attribute; furthermore, *hovering* over `term_text` displays a term summary, as extracted from the corresponding term page.
+
+### Example usage
+
+Say you want to reference a term that exists under the `./docs/terms/` directory,
+e.g. `./docs/terms/party.md`. You can use the following syntax to reference
+this term in your documentation page:
+
+```
+Some content that wants to reference the %%Party|party%% term
+```
+
+When the script runs, this will be replaced as follows:
+
+```
+Some content that wants to reference the <Term reference="party" popup="Popup text">Party</Term> term
+```
+
+which supports the functionality explained above.
+
+And finally, all you will see in your compiled documentation page, will be:
+
+```
+Some content that wants to reference the Party term
+```
+
+with the word **Party** containing the described functionality.
+
+## Generating the terminology documentation
+
+When you are finished referencing terms and have written corresponding term pages, you can test this locally by running the following command:
 
 ```.shell script
-$ yarn parse
-yarn run v1.22.5
- docusaurus parse
-Replacing patterns with <Term />
-Done in 1.41s.
+$ yarn docusaurus parse
 ```
 
 This will replace all `%%term_text|term_name%%` occurrences with the React 
 component supporting the required functionality.
 
-### Generate the glossary page
+## Generating the glossary page
 
 If everything works well with the above procedure, you can then generate a
 glossary page, by running the following command:
 
 ```.shell script
 $ yarn glossary
-yarn run v1.22.5
- docusaurus glossary
-Alphabetical list of terms
-Done in 1.53s.
 ```
 
 This will generate a file in `./docs/glossary.md` where every term that has been
 mentioned above, will be populated in the `glossary.md` page.
 
-### Configuration options
+## Configuration options
 
 For using the plugin with the default options, you can provide just the plugin 
 name in `docusaurus.config.js` file of your repository:
