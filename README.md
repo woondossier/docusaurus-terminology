@@ -6,6 +6,8 @@ that 'stick out' of the surrounding text, where hovering over them makes a
 popup appear with a short explanation of the term, and clicking on the term 
 navigates the user to the page that documents the concept.
 
+![Term in text example](website/static/img/terminology_example.gif)
+
 You can also generate a glossary with the list of your terms.
 
 ### How it works
@@ -23,7 +25,7 @@ In order to use this plugin, you will need:
 
   1. Node.js version >= 10.15.1
   2. Yarn version >= 1.5
-  3. Docusuarus v2 repository (tested against 2.0.0-alpha-65 and above)
+  3. Docusaurus v2 repository (tested against 2.0.0-alpha-65 and above)
 
 ## Installation
 
@@ -35,24 +37,26 @@ $ yarn add @docusaurus-terminology/parser @docusaurus-terminology/term
 
 Then, you can add the plugin to `docusaurus.config.js` file of your repository:
 
-```
+```js
+module.exports = {
+  // ...
   plugins: [
     '@docusaurus-terminology/parser'
   ]
-};
+}
 ```
 
 Or, you can use it with extra options defined (with more examples in the next sections):
 
-```
-plugins: [
-  [
-    '@docusaurus-terminology/parser',
-    {
-      termsDir: './docs/terminology/'
-    }
+```js
+  plugins: [
+    [
+      "@docusaurus-terminology/parser",
+      {
+        //options
+      }
+    ]
   ]
-]
 ```
 
 ## Usage
@@ -98,7 +102,10 @@ page
 directory
 
 After successfully running the script, the above occurrence will be replaced by 
-a reference (technically a React component), which will render `term_text` as a link to the corresponding term page, which is in turn generated from the `term_name` attribute; furthermore, *hovering* over `term_text` displays a term summary, as extracted from the corresponding term page.
+a reference (technically a React component), which will render `term_text` as a 
+link to the corresponding term page, which is in turn generated from the 
+`term_name` attribute; furthermore, *hovering* over `term_text` displays a term 
+summary, as extracted from the corresponding term page.
 
 ### Example usage
 
@@ -128,7 +135,8 @@ with the word **Party** containing the described functionality.
 
 ## Generating the terminology documentation
 
-When you are finished referencing terms and have written corresponding term pages, you can test this locally by running the following command:
+When you are finished referencing terms and have written corresponding term 
+pages, you can test this locally by running the following command:
 
 ```.shell script
 $ yarn docusaurus parse
@@ -143,7 +151,7 @@ If everything works well with the above procedure, you can then generate a
 glossary page, by running the following command:
 
 ```.shell script
-$ yarn glossary
+$ yarn docusaurus glossary
 ```
 
 This will generate a file in `./docs/glossary.md` where every term that has been
@@ -151,11 +159,16 @@ mentioned above, will be populated in the `glossary.md` page.
 
 ## When to generate the terminology docs
 
-As the terminology plugin actually edits all markdown files, your git repository will show changes in the `git diff` command. It is highly encouraged to not commit the changes, as the plugin will no longer be able to detect patterns that have been altered. 
+As the terminology plugin actually edits all markdown files, your Git repository 
+will show changes in the `git diff` command. It is highly recommended to avoid 
+committing the changes, as the plugin will no longer be able to detect patterns that 
+have been altered. 
 
-Your best case scenario will be to use the scripts in a CI, just before building and deploying the documentation.
+Your best case scenario will be to use the scripts in a CI, just before building 
+and deploying the documentation.
 
-The following example of a gitlab ci job shows how to perform these steps in the CI environment:
+The following example of a Gitlab CI job shows how to perform these steps in 
+the CI environment:
 
 ```
 ...
