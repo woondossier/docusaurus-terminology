@@ -25,12 +25,12 @@ module.exports = function (context, opts) {
   options.termsDir = path.resolve(options.termsDir) + "/";
   options.docsDir = path.resolve(options.docsDir) + "/";
   options.glossaryFilepath = path.resolve(options.glossaryFilepath);
-  options.noParseFiles.forEach((item, index) => {
+  for (const [index,item] of options.noParseFiles.entries()) {
     options.noParseFiles[index] = path.resolve(process.cwd(), item);
-  });
-  options.noGlossaryFiles.forEach((item, index) => {
+  }
+  for (const [index,item] of options.noGlossaryFiles.entries()) {
     options.noGlossaryFiles[index] = path.resolve(process.cwd(), item);
-  });
+  }
 
   return {
     name: "terminology-parser",
