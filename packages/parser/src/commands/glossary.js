@@ -20,7 +20,7 @@ async function glossary(options) {
   let termsFiles = [];
 
   try {
-    termsFiles = await getFiles(options.termsDir, options.noParseFiles);
+    termsFiles = await getFiles(options.termsDir, options.noGlossaryFiles);
   } catch (err) {
     console.log(`\u26A0  Not able to get files from folder: ${options.termsDir}`);
     console.log(`Check the path in option "termsDir"\n\n ${err} \nExiting...`);

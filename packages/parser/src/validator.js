@@ -19,6 +19,12 @@ function validateOptions(opts) {
   for (const file of opts.noParseFiles) {
     checkRelativePath(`noParseFiles item ${file}`, file);
   }
+
+  // noGlossaryFiles
+  validateType("noGlossaryFiles", opts.noGlossaryFiles, "array");
+  for (const file of opts.noGlossaryFiles) {
+    checkRelativePath(`noGlossaryFiles item ${file}`, file);
+  }
 }
 
 function validateNotEmpty(key, value) {

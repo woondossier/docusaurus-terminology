@@ -28,6 +28,9 @@ module.exports = function (context, opts) {
   options.noParseFiles.forEach((item, index) => {
     options.noParseFiles[index] = path.resolve(process.cwd(), item);
   });
+  options.noGlossaryFiles.forEach((item, index) => {
+    options.noGlossaryFiles[index] = path.resolve(process.cwd(), item);
+  });
 
   return {
     name: "terminology-parser",
