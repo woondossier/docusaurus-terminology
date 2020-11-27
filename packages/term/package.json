@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus-terminology/term",
-  "version": "1.0.0-alpha.58+7dbba3a",
+  "version": "1.0.0",
   "description": "React component to render Terms",
   "author": "Thanasis Katsadas <kathan@admin.grnet.gr>",
   "homepage": "",
