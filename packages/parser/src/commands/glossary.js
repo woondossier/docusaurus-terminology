@@ -13,19 +13,43 @@ const {
 
 async function glossary(options) {
   options.dryRun && console.log("\n* Dry run enabled *\n");
+
   let glossaryContent = "";
-  const termsFiles = await getFiles(options.termsDir, options.noParseFiles)
+
+  // Load the term files
+  let termsFiles = [];
+
+  try {
+    termsFiles = await getFiles(options.termsDir, options.noParseFiles);
+  } catch (err) {
+    console.log(`\u26A0  Not able to get files from folder: ${options.termsDir}`);
+    console.log(`Check the path in option "termsDir"\n\n ${err} \nExiting...`);
+    process.exit(1);
+  }
+
+  if (termsFiles.length == 0) {
+    console.log(`\u26A0  No term files found`);
+    console.log(`Might be wrong path "${options.termsDir}" in option ` +
+      `"termsDir" or empty folder \nExiting...`);
+    process.exit(1);
+  }
+
   const termsData = await preloadTerms(termsFiles);
+
   // remove terms that don't have title or hoverText
   let cleanTerms = cleanGlossaryTerms(termsData);
+
   // sort termsData alphabetically
   sortFiles(cleanTerms);
+
+  // append terms to the glossary
   for (const term of cleanTerms) {
     const current_file_path = path.resolve(process.cwd(), options.glossaryFilepath);
     const relativePath = getRelativePath(current_file_path, term.filepath);
     const glossaryTerm = getGlossaryTerm(term, relativePath);
     glossaryContent = glossaryContent + glossaryTerm;
   }
+
   if(options.dryRun) {
     console.log(`\n! These changes will not be applied in the glossary file.` +
       `\nShowing the output below:\n\n${(glossaryContent)}\n\n`);
@@ -36,7 +60,7 @@ async function glossary(options) {
         options.glossaryFilepath, glossaryFile+glossaryContent, "utf-8");
     } catch (err) {
       console.log(`\u26A0  An error occurred while writing new data to ` +
-        `the file: ${options.glossaryFilepath}\n${err}`);
+        `the file: ${options.glossaryFilepath}\n ${err} \nExiting...`);
       process.exit(1);
     } finally {
       console.log(`\u00BB Glossary is updated.`);

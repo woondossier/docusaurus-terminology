@@ -18,6 +18,8 @@ const DEFAULT_OPTIONS = {
 module.exports = function (context, opts) {
   // initialize options
   let options = {};
+  !opts.termsDir && console.log(`\n! No option for terms directory found, ` +
+      `using default directory "${DEFAULT_OPTIONS.termsDir}"\n`);
   options = Object.assign({}, DEFAULT_OPTIONS, opts);
   validateOptions(options);
   options.termsDir = path.resolve(options.termsDir) + "/";

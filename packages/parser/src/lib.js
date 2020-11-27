@@ -42,16 +42,17 @@ async function preloadTerms(termsFiles) {
     } catch (err) {
       (err.code === 'ENOENT') ?
       console.log(`File ${term} not found.`) :
-      console.log(err);
+      console.log(`${err}\nExiting...`);
       process.exit(1);
     }
     let { metadata } = parseMD(fileContent);
     if (!metadata.id) {
       console.log(`! The term "${term}" lacks the attribute "id" and so is ` +
-      `excluded from the term parsing functionality.`);
+        `excluded from the term parsing functionality.`);
     } else {
       if (!metadata.hoverText || metadata.hoverText.length == 0) {
-        console.log(`! The term "${term}" lacks the attribute "hoverText", so no popup text will be shown.`);
+        console.log(`! The term "${term}" lacks the attribute "hoverText", ` +
+          `so no popup text will be shown.`);
       }
       const data = {
         content: fileContent,

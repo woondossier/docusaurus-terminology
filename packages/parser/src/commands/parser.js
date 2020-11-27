@@ -11,7 +11,6 @@ const {
 
 async function parser(options) {
   options.dryRun && console.log("\n* Dry run enabled *\n");
-  options.debug && console.log("\n* Debug logging enabled *\n");
 
   // Load the term files
   let termsFiles = [];
@@ -20,13 +19,14 @@ async function parser(options) {
     termsFiles = await getFiles(options.termsDir, options.noParseFiles);
   } catch (err) {
     console.log(`\u26A0  Not able to get files from folder: ${options.termsDir}`);
-    console.log(`Check the path in option "termsDir"\n\nError: ${err}`);
+    console.log(`Check the path in option "termsDir"\n\n ${err} \nExiting...`);
     process.exit(1);
   }
 
   if (termsFiles.length == 0) {
-    console.log(`\u26A0 No term files found. Might be wrong path` +
-    ` "${options.termsDir}" in option "termsDir" or empty folder`);
+    console.log(`\u26A0 No term files found`);
+    console.log(`Might be wrong path "${options.termsDir}" in option ` +
+      `"termsDir" or empty folder \nExiting...`);
     process.exit(1);
   }
 
@@ -39,7 +39,7 @@ async function parser(options) {
     allFiles = await getFiles(options.docsDir, options.noParseFiles);
   } catch (err) {
     console.log(`\u26A0  Not able to get files from folder: ${options.docsDir}`);
-    console.log(`Check the path in option "docsDir"\n\nError: ${err}`);
+    console.log(`Check the path in option "docsDir"\n\n${err} \nExiting...`);
     process.exit(1);
   }
 
@@ -63,6 +63,7 @@ async function parser(options) {
       content = await fs.promises.readFile(filepath, "utf8");
     } catch (err) {
       console.log(`\u26A0 Error occurred while reading file: ${filepath}`);
+      console.log(`Exiting...`);
       process.exit(1);
     }
 
@@ -81,7 +82,8 @@ async function parser(options) {
         if(!termReference) {
           console.log(`\nParsing file "${filepath}"...`);
           console.log(`\u26A0  Could not find the correct term from id ` +
-          `"${ref}" in regex match "${match}". Maybe typo or missing term file?\n`);
+          `"${ref}" in regex match "${match}". Maybe typo or missing term file?`);
+          console.log("Exiting...");
           process.exit(1);
         }
         const current_file_path = path.resolve(process.cwd(), filepath);
@@ -109,7 +111,7 @@ async function parser(options) {
           const result = await fs.promises.writeFile(filepath, content, "utf-8");
         } catch (err) {
           console.log(`\u26A0  An error occurred while writing new data ` +
-            `to file: ${filepath}\n${err}`);
+            `to file: ${filepath}\n${err} \nExiting...`);
           process.exit(1);
         } finally {
           console.log(`\u00BB File ${filepath} is updated.`);

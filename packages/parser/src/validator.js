@@ -32,13 +32,13 @@ function validateType(key, value, type) {
   if(type == "array") {
     if (!Array.isArray(value)) {
       const curType = typeof value;
-      console.log(`"${key}" needs to be a ${type}, but found ${curType}.\nExiting...`);
+      console.log(`"${key}" should be an ${type}, not ${curType}.\nExiting...`);
       process.exit(1);
     }
   } else {
     if(typeof value != type) {
       const curType = typeof value;
-      console.log(`"${key}" needs to be a ${type}, but found ${curType}.\nExiting...`);
+      console.log(`"${key}" should be a ${type}, not ${curType}.\nExiting...`);
       process.exit(1);
     }
   }
@@ -46,7 +46,7 @@ function validateType(key, value, type) {
 
 function checkRelativePath(key, value) {
   if(value.charAt(0) == "/") {
-    console.log(`${key} needs to be a relative path, but found absolute.\nExiting...`);
+    console.log(`${key} should be a relative path, not absolute.\nExiting...`);
     process.exit(1);
   }
 }
