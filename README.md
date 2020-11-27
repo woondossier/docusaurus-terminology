@@ -149,6 +149,29 @@ $ yarn glossary
 This will generate a file in `./docs/glossary.md` where every term that has been
 mentioned above, will be populated in the `glossary.md` page.
 
+## When to generate the terminology docs
+
+As the terminology plugin actually edits all markdown files, your git repository will show changes in the `git diff` command. It is highly encouraged to not commit the changes, as the plugin will no longer be able to detect patterns that have been altered. 
+
+Your best case scenario will be to use the scripts in a CI, just before building and deploying the documentation.
+
+The following example of a gitlab ci job shows how to perform these steps in the CI environment:
+
+```
+...
+
+generate-docs:
+	image: node:lts
+	stage: build
+	before_script:
+		- yarn install
+	script:
+		- yarn docusaurus parse
+		- yarn docusaurus glossary
+		- yarn build
+```
+and then you can use the `build` directory to serve your documentation.
+
 ## Configuration options
 
 For using the plugin with the default options, you can provide just the plugin 
