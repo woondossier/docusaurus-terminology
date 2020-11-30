@@ -207,6 +207,8 @@ and an options object in an array inside your configuration:
 |   noParseFiles   |                             array of files to be excluded from search/replace                             |  array |         []         |
 |  noGlossaryFiles |                         array of term files to not be listed on the glossary page                         |  array |         []         |
 
+**IMPORTANT NOTE**: All file paths need to be relative to the project's root directory. If you want to exclude a file, you should write `./docs/excude-me.md`.
+
 Example:
 
 ```
@@ -234,62 +236,38 @@ Then run the following commands:
 ```.shell script
 $ cd docusaurus-terminology
 $ yarn install
-$ yarn run lerna bootstrap
-$ yarn run lerna run build
+$ yarn bootstrap
+$ yarn build
 ```
 
-After running those commands, all packages will be initialized and built, so 
-they are ready to be linked locally with a docusaurus project.
+After running those commands, all packages will be initialized and built, and you are ready for development.
 
-We first need to use the command `yarn link` to create symlinks for each of our 
-packages, in order to "install" them (symlink them actually) with another 
-docusaurus project. Run the following commands:
+In the directory `website`, there is a docusaurus project, ready with the plugin initialized, which can be used for testing purposes. There are aleady some markdown files and terms, but new files can be added for further testing.
+
+After making changes in the packages, you should always build the packages and then test them with the local website directory. So first you need to run:
+
+```
+yarn build
+```
+
+from the root directory of the repository. And then we are ready to test everything in the local docusaurus project, so we run the following commands:
 
 ```.shell script
-$ cd packages/parser
-$ yarn link
-$ cd ../term
-$ yarn link
+$ cd website
+$ yarn docusaurus parse
+$ yarn docusaurus glossary
 ```
 
-Right now we have created the symlinks for these packages, so they are ready 
-to be "installed" in another docusaurus project. Let's go to a docusaurus project 
-and link them:
+// build instructions
+
+When we are ready to do a test build to see if our website compiles successfully, we can use the following command:
 
 ```.shell script
-$ yarn link @docusaurus-terminology/parser
-$ yarn link @docusaurus-terminology/term
+$ cd website
+$ yarn build
 ```
 
-After running those commands inside the docusaurus project, we are ready to 
-replace the custom integrations with our new packages. As the term component 
-will be injected automatically, we only need to replace the parser integration 
-`docusaurus.config.js`:
-
-```
-  plugins: [
-    '@docusaurus-terminology/parser'
-  ]
-};
-```
-
-And then we are ready to run our well-known commands:
-
-```.shell script
-$ yarn run docusaurus parse
-$ yarn run docusaurus glossary
-```
-
-Alternatively, if you prefer to use `yarn parse` and `yarn glossary`, add to 
-`package,json` of the docusaurus project, under `scripts`:
-
-```
-"parse": "docusaurus parse",
-"glossary": "docusaurus glossary"
-```
-
-You can use a package named `serve` to create instantly a nodejs webserver to 
-serve these files (as used in the dockerfile). You can run the following:
+And this will output our compiled website in a directory called `build`. You can use a package named `serve` to create instantly a nodejs webserver to serve these files (as used in the dockerfile). You can run the following:
 
 ```
 $ yarn global add serve
