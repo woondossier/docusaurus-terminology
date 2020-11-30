@@ -258,8 +258,6 @@ $ yarn docusaurus parse
 $ yarn docusaurus glossary
 ```
 
-// build instructions
-
 When we are ready to do a test build to see if our website compiles successfully, we can use the following command:
 
 ```.shell script
