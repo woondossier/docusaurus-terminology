@@ -16,7 +16,7 @@ This plugin, once it's installed in a docusaurus project, parses docs in two way
 
   1. Parses all `*.md(x)` files under `docs/` and replaces each pattern with an
   appropriate React component supporting a tooltip functionality (see below)
-  2. Generates a glossary page with all terms corresponding to the `*.md` files 
+  2. Generates a glossary page with all terms corresponding to the `*.md(x)` files 
   under `docs/terms/`
 
 ## Prerequisites
@@ -31,8 +31,8 @@ In order to use this plugin, you will need:
 
 To install the plugin to your docusaurus repository, use the command:
 
-```shell script
-$ yarn add @docusaurus-terminology/parser @docusaurus-terminology/term
+```commandline
+yarn add @docusaurus-terminology/parser @docusaurus-terminology/term
 ```
 
 Then, you can add the plugin to `docusaurus.config.js` file of your repository:
@@ -65,12 +65,12 @@ Or, you can use it with extra options defined (with more examples in the next se
 
 This plugin assumes that you follow the structure, as explained below:
 
-Each term should have its own `.md` file, inside the `./docs/terms` directory,
+Each term should have its own `.md(x)` file, inside the `./docs/terms` directory,
 and it needs to consist of the following structure:
 
-```title="./docs/terms/term.md"
+```markdown
 ---
-id: term
+id: term_name
 title: Term page
 hoverText: This hover text will appear in the documentation page that you reference this term
 ---
@@ -98,8 +98,13 @@ you may use the following syntax:
 where:
 - `term_text`: The terminology text you want it to be visible in the documentation
 page
-- `term_name`: The id of the term file, which resides under `./docs/terms` 
-directory
+- `term_name`: The value of the `id` attribute, which resides in the header of the term file:
+  > ```markdown
+  > ---
+  > id: term_name
+  > ...
+  > ---
+  > ```
 
 After successfully running the script, the above occurrence will be replaced by 
 a reference (technically a React component), which will render `term_text` as a 
@@ -113,13 +118,13 @@ Say you want to reference a term that exists under the `./docs/terms/` directory
 e.g. `./docs/terms/party.md`. You can use the following syntax to reference
 this term in your documentation page:
 
-```
+```markdown
 Some content that wants to reference the %%Party|party%% term
 ```
 
 When the script runs, this will be replaced as follows:
 
-```
+```html
 Some content that wants to reference the <Term reference="party" popup="Popup text">Party</Term> term
 ```
 
@@ -127,7 +132,7 @@ which supports the functionality explained above.
 
 And finally, all you will see in your compiled documentation page, will be:
 
-```
+```markdown
 Some content that wants to reference the Party term
 ```
 
@@ -138,8 +143,8 @@ with the word **Party** containing the described functionality.
 When you are finished referencing terms and have written corresponding term 
 pages, you can test this locally by running the following command:
 
-```.shell script
-$ yarn docusaurus parse
+```commandline
+yarn docusaurus parse
 ```
 
 This will replace all `%%term_text|term_name%%` occurrences with the React 
@@ -150,8 +155,8 @@ component supporting the required functionality.
 If everything works well with the above procedure, you can then generate a
 glossary page, by running the following command:
 
-```.shell script
-$ yarn docusaurus glossary
+```commandline
+yarn docusaurus glossary
 ```
 
 This will generate a file in `./docs/glossary.md` where every term that has been
@@ -170,7 +175,7 @@ and deploying the documentation.
 The following example of a Gitlab CI job shows how to perform these steps in 
 the CI environment:
 
-```
+```yaml
 ...
 
 generate-docs:
@@ -190,7 +195,7 @@ and then you can use the `build` directory to serve your documentation.
 For using the plugin with the default options, you can provide just the plugin 
 name in `docusaurus.config.js` file of your repository:
 
-```
+```js
   plugins: [
     '@docusaurus-terminology/parser'
   ]
@@ -211,7 +216,7 @@ and an options object in an array inside your configuration:
 
 Example:
 
-```
+```js
 plugins: [
   [
     '@docusaurus-terminology/parser',
@@ -233,42 +238,42 @@ Clone the repository [https://gitlab.grnet.gr/devs/docusaurus-terminology](https
 
 Then run the following commands:
 
-```.shell script
-$ cd docusaurus-terminology
-$ yarn install
-$ yarn bootstrap
-$ yarn build
+```commandline
+cd docusaurus-terminology
+yarn install
+yarn bootstrap
+yarn build
 ```
 
 After running those commands, all packages will be initialized and built, and you are ready for development.
 
-In the directory `website`, there is a docusaurus project, ready with the plugin initialized, which can be used for testing purposes. There are aleady some markdown files and terms, but new files can be added for further testing.
+In the directory `website`, there is a docusaurus project, ready with the plugin initialized, which can be used for testing purposes. There are already some markdown files and terms, but new files can be added for further testing.
 
 After making changes in the packages, you should always build the packages and then test them with the local website directory. So first you need to run:
 
-```
+```commandline
 yarn build
 ```
 
 from the root directory of the repository. And then we are ready to test everything in the local docusaurus project, so we run the following commands:
 
-```.shell script
-$ cd website
-$ yarn docusaurus parse
-$ yarn docusaurus glossary
+```commandline
+cd website
+yarn docusaurus parse
+yarn docusaurus glossary
 ```
 
 When we are ready to do a test build to see if our website compiles successfully, we can use the following command:
 
-```.shell script
-$ cd website
-$ yarn build
+```commandline
+cd website
+yarn build
 ```
 
 And this will output our compiled website in a directory called `build`. You can use a package named `serve` to create instantly a nodejs webserver to serve these files (as used in the dockerfile). You can run the following:
 
-```
-$ yarn global add serve
-$ cd build
-$ serve
+```commandline
+yarn global add serve
+cd build
+serve
 ```
