@@ -159,6 +159,15 @@ yarn docusaurus parse
 This will replace all `%%term_text|term_name%%` occurrences with the React 
 component supporting the required functionality.
 
+### Dry run option
+
+If you do not want changes to be actually applied but only
+view them (for, say, debug purposes), run
+
+```commandline
+yarn docusaurus parse --dry-run
+```
+
 ## Glossary generation
 
 If everything works well with the above procedure, you can then generate a
