@@ -215,7 +215,7 @@ and an options object in an array inside your configuration:
 |:----------------:|:---------------------------------------------------------------------------------------------------------:|:------:|:------------------:|
 |     termsDir     |                                the directory used to collect the term files                               | string |    ./docs/terms    |
 | glossaryFilepath |                            specify the directory and name of the glossary file                            | string | ./docs/glossary.md |
-| patternSeparator | the special character used to separate `term_text` and `term_name` in the replace pattern for parsing | string |         \|         |
+| patternSeparator | the special character used to separate `term_text` <br>and `term_name` in the replace pattern for parsing | string |         \|         |
 |   noParseFiles   |                             array of files to be excluded from search/replace                             |  array |         []         |
 |  noGlossaryFiles |                         array of term files to not be listed on the glossary page                         |  array |         []         |
 
