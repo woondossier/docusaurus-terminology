@@ -1,6 +1,7 @@
 stages:
   - test
   - build
+  - deploy-website
 
 test:
   image: node:lts
@@ -21,3 +22,20 @@ build:
   script:
     - yarn build
 
+pages:
+  image: node:lts
+  stage: deploy-website
+  before_script:
+  before_script:
+    - yarn
+    - yarn run lerna bootstrap
+    - yarn build
+  script:
+    - cd website
+    - yarn docusaurus parse
+    - yarn docusaurus glossary
+    - yarn build
+    - mv build public
+  artifacts:
+    paths:
+      - website/public
