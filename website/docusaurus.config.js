@@ -1,6 +1,6 @@
 module.exports = {
-  title: 'My Site',
-  tagline: 'The tagline of my site',
+  title: 'Docusaurus Terminology',
+  tagline: 'Create a terminology structure in your Docusaurus project',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: process.env.STAGING && process.env.STAGING === 'true' ? '/docusaurus-terminology/' : '/',
   onBrokenLinks: 'throw',
@@ -9,16 +9,22 @@ module.exports = {
   projectName: 'docusaurus', // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: 'My Site',
+      title: 'Docusaurus-Terminology',
       logo: {
         alt: 'My Site Logo',
         src: 'img/logo.svg',
       },
       items: [
         {
-          to: 'docs/',
+          to: 'docs',
           activeBasePath: 'docs',
-          label: 'Docs',
+          label: 'Documentation',
+          position: 'left',
+        },
+        {
+          to: 'docs/contribute',
+          activeBasePath: 'docs',
+          label: 'Contribution',
           position: 'left',
         },
         {
@@ -35,12 +41,12 @@ module.exports = {
           title: 'Docs',
           items: [
             {
-              label: 'Style Guide',
-              to: 'docs/',
+              label: 'Usage',
+              to: 'docs/usage/',
             },
             {
-              label: 'Second Doc',
-              to: 'docs/doc2/',
+              label: 'Contribution',
+              to: 'docs/contribute/',
             },
           ],
         },

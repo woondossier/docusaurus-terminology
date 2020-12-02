@@ -1,11 +1,11 @@
 ---
-id: doc1
-title: Style Guide
-sidebar_label: Style Guide
+id: usage
+title: Usage
+sidebar_label: Usage
 slug: /
 ---
 
-# Docusaurus terminology
+## Introduction
 
 **docusaurus-terminology** is a yarn package for creating a terminology structure 
 in your docusaurus project. This plugin allows you to use terms in your pages, 
@@ -17,7 +17,7 @@ navigates the user to the page that documents the concept.
 
 You can also generate a glossary with the list of your terms.
 
-### How it works
+## How it works
 
 This plugin, once it's installed in a docusaurus project, parses docs in two ways:
 
@@ -26,7 +26,9 @@ This plugin, once it's installed in a docusaurus project, parses docs in two way
   2. Generates a glossary page with all terms corresponding to the `*.md(x)` files 
   under `docs/terms/`
 
-## Prerequisites
+## Install
+
+### Prerequisites
 
 In order to use this plugin, you will need:
 
@@ -34,7 +36,7 @@ In order to use this plugin, you will need:
   2. Yarn version >= 1.5
   3. Docusaurus v2 repository (tested against 2.0.0-alpha-65 and above)
 
-## Installation
+### Installation
 
 To install the plugin to your docusaurus repository, use the command:
 
@@ -66,7 +68,7 @@ Or, you can use it with extra options defined (with more examples in the next se
   ]
 ```
 
-## Usage
+## Handling terms
 
 ### Defining a term
 
@@ -145,7 +147,7 @@ Some content that wants to reference the Party term
 
 with the word **Party** containing the described functionality.
 
-## Generating the terminology documentation
+## Parse and replace
 
 When you are finished referencing terms and have written corresponding term 
 pages, you can test this locally by running the following command:
@@ -157,7 +159,7 @@ yarn docusaurus parse
 This will replace all `%%term_text|term_name%%` occurrences with the React 
 component supporting the required functionality.
 
-## Generating the glossary page
+## Glossary generation
 
 If everything works well with the above procedure, you can then generate a
 glossary page, by running the following command:
@@ -215,7 +217,7 @@ and an options object in an array inside your configuration:
 |:----------------:|:---------------------------------------------------------------------------------------------------------:|:------:|:------------------:|
 |     termsDir     |                                the directory used to collect the term files                               | string |    ./docs/terms    |
 | glossaryFilepath |                            specify the directory and name of the glossary file                            | string | ./docs/glossary.md |
-| patternSeparator | the special character used to separate `term_text` <br>and `term_name` in the replace pattern for parsing | string |         \|         |
+| patternSeparator | the special character used to separate `term_text` and `term_name` in the replace pattern for parsing | string |         \|         |
 |   noParseFiles   |                             array of files to be excluded from search/replace                             |  array |         []         |
 |  noGlossaryFiles |                         array of term files to not be listed on the glossary page                         |  array |         []         |
 
@@ -236,51 +238,3 @@ plugins: [
 ]
 ```
 
-## How to contribute
-
-To build and use the plugin locally in a project, apply changes etc., follow the 
-instructions below.
-
-Clone the repository [https://gitlab.grnet.gr/devs/docusaurus-terminology](https://gitlab.grnet.gr/devs/docusaurus-terminology)
-
-Then run the following commands:
-
-```commandline
-cd docusaurus-terminology
-yarn install
-yarn bootstrap
-yarn build
-```
-
-After running those commands, all packages will be initialized and built, and you are ready for development.
-
-In the directory `website`, there is a docusaurus project, ready with the plugin initialized, which can be used for testing purposes. There are already some markdown files and terms, but new files can be added for further testing.
-
-After making changes in the packages, you should always build the packages and then test them with the local website directory. So first you need to run:
-
-```commandline
-yarn build
-```
-
-from the root directory of the repository. And then we are ready to test everything in the local docusaurus project, so we run the following commands:
-
-```commandline
-cd website
-yarn docusaurus parse
-yarn docusaurus glossary
-```
-
-When we are ready to do a test build to see if our website compiles successfully, we can use the following command:
-
-```commandline
-cd website
-yarn build
-```
-
-And this will output our compiled website in a directory called `build`. You can use a package named `serve` to create instantly a nodejs webserver to serve these files (as used in the dockerfile). You can run the following:
-
-```commandline
-yarn global add serve
-cd build
-serve
-```
