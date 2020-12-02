@@ -102,8 +102,9 @@ module.exports = {
       {
         termsDir: './docs/terminology',
         noParseFiles: [
-          './docs/terminology/exclude.md',
-          './docs/exclude2.md'
+	  './docs/terminology/exclude.md',
+	  './docs/exclude2.md',
+          './docs/usage.md',
         ]
       }
     ]
