@@ -1,7 +1,7 @@
 module.exports = {
   title: 'Docusaurus Terminology',
   tagline: 'Create a terminology structure in your Docusaurus project',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://devs.pages.grnet.gr/docusaurus-terminology',
   baseUrl: process.env.STAGING && process.env.STAGING === 'true' ? '/docusaurus-terminology/' : '/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
@@ -28,8 +28,8 @@ module.exports = {
           position: 'left',
         },
         {
-          href: 'https://github.com/facebook/docusaurus',
-          label: 'GitHub',
+          href: 'https://gitlab.grnet.gr/devs/docusaurus-terminology',
+          label: 'GitLab',
           position: 'right',
         },
       ],
