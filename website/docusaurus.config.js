@@ -3,7 +3,7 @@ module.exports = {
   tagline: 'Create a terminology structure in your Docusaurus project',
   url: 'https://devs.pages.grnet.gr/docusaurus-terminology',
   baseUrl: process.env.STAGING && process.env.STAGING === 'true' ? '/docusaurus-terminology/' : '/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'facebook', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
