@@ -25,6 +25,9 @@ build:
 pages:
   image: node:lts
   stage: deploy-website
+  only:
+    - master
+  when: manual
   before_script:
   before_script:
     - yarn
