@@ -159,15 +159,6 @@ yarn docusaurus parse
 This will replace all `%%term_text|term_name%%` occurrences with the React 
 component supporting the required functionality.
 
-### Dry run option
-
-If you do not want changes to be actually applied but only
-view them (for, say, debug purposes), run
-
-```commandline
-yarn docusaurus parse --dry-run
-```
-
 ## Glossary generation
 
 If everything works well with the above procedure, you can then generate a
@@ -179,6 +170,26 @@ yarn docusaurus glossary
 
 This will generate a file in `./docs/glossary.md` where every term that has been
 mentioned above, will be populated in the `glossary.md` page.
+
+## Dry run option
+
+If you want to see the output of parse or glossary in your terminal
+without updating the files, run:
+
+```commandline
+yarn docusaurus parse --dry-run
+```
+
+or 
+
+```commandline
+yarn docusaurus glossary --dry-run
+```
+
+respectively.
+
+> This will show what the output of the `git diff` command would have been, 
+if the actual replacement had taken place.
 
 ## When to generate the terminology docs
 
