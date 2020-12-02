@@ -34,7 +34,7 @@ pages:
     - cd website
     - yarn docusaurus parse
     - yarn docusaurus glossary
-    - yarn build
+    - STAGING=true yarn build
     - mv build ../public
   artifacts:
     paths:

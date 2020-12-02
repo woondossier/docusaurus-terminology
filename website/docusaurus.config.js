@@ -2,7 +2,7 @@ module.exports = {
   title: 'My Site',
   tagline: 'The tagline of my site',
   url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  baseUrl: process.env.STAGING && process.env.STAGING === 'true' ? '/docusaurus-terminology/' : '/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
   organizationName: 'facebook', // Usually your GitHub org/user name.
