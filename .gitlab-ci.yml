@@ -35,7 +35,7 @@ pages:
     - yarn docusaurus parse
     - yarn docusaurus glossary
     - yarn build
-    - mv build public
+    - mv build ../public
   artifacts:
     paths:
-      - website/public
+      - public
