@@ -13,7 +13,7 @@ test:
     - yarn test --verbose
 
 
-build:
+build packages:
   image: node:lts
   stage: build
   before_script:
@@ -22,13 +22,25 @@ build:
   script:
     - yarn build
 
+build docs:
+  image: node:lts
+  stage: build
+  before_script:
+    - yarn
+    - yarn run lerna bootstrap
+    - yarn build
+  script:
+    - cd website
+    - yarn docusaurus parse
+    - yarn docusaurus glossary
+    - STAGING=true yarn build
+
 pages:
   image: node:lts
   stage: deploy-website
   only:
     - master
   when: manual
-  before_script:
   before_script:
     - yarn
     - yarn run lerna bootstrap
