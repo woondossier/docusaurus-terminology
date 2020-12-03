@@ -9,22 +9,22 @@ module.exports = {
   projectName: 'docusaurus', // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: 'Docusaurus-Terminology',
+      title: 'Docusaurus Terminology',
       logo: {
         alt: 'My Site Logo',
         src: 'img/logo.svg',
       },
       items: [
         {
-          to: 'docs',
-          activeBasePath: 'docs',
+          to: 'docs/',
           label: 'Documentation',
+          activeBaseRegex: 'docs/$',
           position: 'left',
         },
         {
           to: 'docs/contribute',
-          activeBasePath: 'docs',
           label: 'Contribution',
+          activeBasePath: 'docs/contribute',
           position: 'left',
         },
         {
