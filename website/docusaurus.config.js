@@ -86,9 +86,10 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
+          showLastUpdateTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+            'https://gitlab.grnet.gr/devs/docusaurus-terminology/-/tree/master/website',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
