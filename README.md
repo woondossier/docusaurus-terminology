@@ -138,6 +138,19 @@ Some content that wants to reference the Party term
 
 with the word **Party** containing the described functionality.
 
+## Testing the changes locally
+
+After writing terms and patterns in your .md files, you can always validate 
+these changes, by running a dry-run command, in order to see compile errors
+and a sample output of all the changes that will be made from the actual 
+script. You can do that by running the following command:
+
+```commandline
+yarn docusaurus parse --dry-run
+```
+
+and you will see in the command line the expected output of the actual command.
+
 ## Generating the terminology documentation
 
 When you are finished referencing terms and have written corresponding term 
