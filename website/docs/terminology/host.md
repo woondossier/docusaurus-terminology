@@ -15,3 +15,5 @@ or person that provides a home for another organism — like a parasite.
 
 Host also functions as a noun, meaning a multitude, horde, or great number. 
 As in, "You will pick up a host of funky germs from drinking this water."
+
+Also, one more thing: %%dir1 file|dir1file%%

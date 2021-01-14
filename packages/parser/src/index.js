@@ -7,6 +7,7 @@ const validateOptions = require("./validator.js");
 const DEFAULT_OPTIONS = {
   docsDir: "./docs/",
   termsDir: "./docs/terms/",
+  termsUrl: "/docs/terms",
   glossaryFilepath: "./docs/glossary.md",
   patternSeparator: "|",
   noParseFiles: [],
@@ -22,6 +23,7 @@ module.exports = function (context, opts) {
       `using default directory "${DEFAULT_OPTIONS.termsDir}"\n`);
   options = Object.assign({}, DEFAULT_OPTIONS, opts);
   validateOptions(options);
+  options.termsUrl = path.join(context.baseUrl, options.termsDir, "/");
   options.termsDir = path.resolve(options.termsDir) + "/";
   options.docsDir = path.resolve(options.docsDir) + "/";
   options.glossaryFilepath = path.resolve(options.glossaryFilepath);

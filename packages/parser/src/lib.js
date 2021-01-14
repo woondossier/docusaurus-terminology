@@ -136,18 +136,21 @@ function getOrCreateGlossaryFile(path) {
   return fileContent;
 }
 
-function getRelativePath(source, target) {
+function getRelativePath(source, target, opts) {
   // calculate relative path from each file's parent dir
   const sourceDir = source.substr(0, source.lastIndexOf("/"));
   const targetDir = target.substr(0, target.lastIndexOf("/"));
-  const relative_url = path.relative(sourceDir, targetDir);
+  //const relative_url = path.relative(sourceDir, targetDir);
+  const relative_url = path.relative(opts.termsDir, targetDir);
+  const final_url = path.join(opts.termsUrl, relative_url,target.substr(target.lastIndexOf("/")));
   // construct the final url by appending the target's filename
   // if the relative url is empty, it means that the referenced
   // term is in the same dir, so add a `.`
-  let final_url = relative_url === ""
-    ? "." + target.substr(target.lastIndexOf("/"))
-    : relative_url + target.substr(target.lastIndexOf("/"));
-    //  remove .mdx suffix
+  //let final_url = relative_url === ""
+  //  ? "." + target.substr(target.lastIndexOf("/"))
+  //  : relative_url + target.substr(target.lastIndexOf("/"));
+  //console.log(new_rel_url, new_final_url);
+  //  remove .mdx suffix
   return final_url.replace(/(\.mdx?)/g, "")
 }
 
