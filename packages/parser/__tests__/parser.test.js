@@ -9,12 +9,17 @@ const {
   preloadTerms
 } = require('../src/lib.js');
 
+const options = {
+  termsUrl: "/docs/terms",
+  termsDir: "/docs/"
+}
+
 describe('get relative path', () => {
     const source = '/docs/file1.md';
     const target = '/docs/dir/file2.md';
-    const path = getRelativePath(source, target);
+    const path = getRelativePath(source, target, options);
     it('finds the file', () => {
-      expect(path).toBe('dir/file2');
+      expect(path).toBe('/docs/terms/dir/file2');
     });
 });
 
