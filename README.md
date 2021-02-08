@@ -13,7 +13,7 @@ You can also generate a glossary with the list of your terms.
 
 ## How It Works
 
-This plugin, once it's installed in a docusaurus project, parses docs
+This plugin, once it's installed in a Docusaurus project, parses docs
 in two ways:
 
   1. Parses all `*.md(x)` files under `docs/` and replaces each pattern with an
