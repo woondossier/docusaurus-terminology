@@ -1,4 +1,4 @@
-# Docusaurus terminology
+# Docusaurus Terminology
 
 **docusaurus-terminology** is a yarn package for creating a
 terminology structure in your [Docusaurus](https://docusaurus.io/)
@@ -11,7 +11,7 @@ term navigates the user to the page that documents the concept.
 
 You can also generate a glossary with the list of your terms.
 
-### How it works
+## How It Works
 
 This plugin, once it's installed in a docusaurus project, parses docs
 in two ways:
@@ -64,12 +64,11 @@ the next sections):
 
 ## Usage
 
-### Defining a term
+### Defining a Term
 
-This plugin assumes that you follow the structure, as explained below:
-
-Each term should have its own `.md(x)` file, inside the `./docs/terms` directory,
-and it needs to consist of the following structure:
+This plugin assumes that you follow a specific pattern. Each term
+should have its own `.md(x)` file, inside the `./docs/terms`
+directory, and it needs to consist of the following structure:
 
 ```markdown
 ---
@@ -84,11 +83,11 @@ content here
 ```
 
 > Pay attention to the `hoverText` attribute, as it is important to provide this
-> attribute (along with the default docusaurus attributes), so the plugin can
+> attribute (along with the default Docusaurus attributes), so the plugin can
 > fetch the correct popup text to show when referencing a term.
 
 
-### Use patterns to reference a term
+### Use Patterns to Reference a Term
 
 When writing docs inside `docs/*.md(x)` files, in order to refer to a term, 
 you may use the following syntax:
@@ -116,7 +115,7 @@ link to the corresponding term page, which is in turn generated from the
 `term_name` attribute; furthermore, *hovering* over `term_text` displays a term 
 summary, as extracted from the corresponding term page.
 
-### Example usage
+### Example Usage
 
 Say you want to reference a term that exists under the `./docs/terms/` directory,
 e.g., `./docs/terms/party.md`. You can use the following syntax to reference
@@ -142,7 +141,7 @@ Some content that wants to reference the Party term
 
 with the word **Party** containing the described functionality.
 
-## Testing the changes locally
+### Testing the Changes Locally
 
 After writing terms and patterns in your `.md` files, you can always validate 
 these changes, by running a dry-run command, in order to see compile errors
@@ -155,7 +154,7 @@ yarn docusaurus parse --dry-run
 
 and you will see in the command line the expected output of the actual command.
 
-## Generating the terminology documentation
+### Generating the Terminology Documentation
 
 When you are finished referencing terms and have written corresponding term 
 pages, you can test this locally by running:
@@ -167,7 +166,7 @@ yarn docusaurus parse
 This will replace all `%%term_text|term_name%%` occurrences with the React 
 component supporting the required functionality.
 
-## Generating the glossary page
+### Generating the Glossary Page
 
 If everything works well with the above procedure, you can then generate a
 glossary page, by running:
@@ -179,7 +178,7 @@ yarn docusaurus glossary
 This will generate a file in `./docs/glossary.md` where every term that has been
 mentioned above will be populated in the `glossary.md` page.
 
-## When to generate the terminology docs
+## When to Generate the Terminology Docs
 
 As the terminology plugin actually edits all markdown files, your Git repository 
 will show changes in the `git diff` command. It is highly recommended to avoid 
@@ -207,7 +206,7 @@ generate-docs:
 ```
 and then you can use the `build` directory to serve your documentation.
 
-## Configuration options
+## Configuration Options
 
 For using the plugin with the default options, you can provide just the plugin 
 name in `docusaurus.config.js` file of your repository:
@@ -248,7 +247,7 @@ plugins: [
 ]
 ```
 
-## How to contribute
+## How to Contribute
 
 To build and use the plugin locally in a project, apply changes etc., follow the 
 instructions below.
@@ -281,7 +280,7 @@ yarn build
 ```
 
 from the root directory of the repository. And then we are ready to
-test everything in the local docusaurus project, so we run the
+test everything in the local Docusaurus project, so we run the
 following commands: 
 
 ```commandline
