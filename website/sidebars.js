@@ -1,10 +1,20 @@
 module.exports = {
   someSidebar: {
-    Documentation: [
-	   'usage', 
+    'Documentation': [
+	   'usage',
     ],
-    Contribution : [
+    'Contribution': [
 	    'contribute',
     ],
+    'Terminology': [
+      'glossary',
+      {
+        'Terms': [
+          'terminology/hospitality',
+          'terminology/host',
+          'terminology/party',
+        ]
+      }
+    ]
   },
 };
