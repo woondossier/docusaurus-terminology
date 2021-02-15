@@ -4,8 +4,7 @@ title: Host
 hoverText: A person responsible for guests at an event
 ---
 
-A host is a person responsible for guests at an event or for providing 
-%%hospitality|hospitality%% during it.
+A host is a person responsible for guests at an event or for providing %%hospitality|hospitality%% during it.
 
 The noun host refers to a person who receives and entertains guests at an event, 
 providing %%hospitality|hospitality%% during it.

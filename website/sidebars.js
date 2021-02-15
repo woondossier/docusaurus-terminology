@@ -2,6 +2,7 @@ module.exports = {
   someSidebar: {
     'Documentation': [
 	   'usage',
+	   'test'
     ],
     'Contribution': [
 	    'contribute',
