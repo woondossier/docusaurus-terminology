@@ -58,6 +58,7 @@ async function preloadTerms(termsFiles) {
         content: fileContent,
         filepath:  term,
         hoverText: metadata.hoverText || "",
+        glossaryText: metadata.glossaryText || "",
         id: metadata.id,
         title: metadata.title || ""
       }
@@ -81,11 +82,16 @@ function splice(cont, idx, rem, str) {
     return cont.slice(0, idx) + str + cont.slice(idx + Math.abs(rem));
 }
 
+function getHeaders(content) {
+  const index = content.indexOf("---", 1) + "---".length;
+  // slice the headers of the file
+  return content.slice(0, index);
+}
+
 function addJSImportStatement(content) {
   const importStatement = `\n\nimport Term ` +
   `from "@docusaurus-terminology/term";\n`;
-  const index = content.indexOf("---", 1) + "---".length;
-  return splice(content, index, 0, importStatement);
+  return importStatement + content;
 }
 
 function sortFiles(files) {
@@ -109,7 +115,10 @@ function cleanGlossaryTerms(terms) {
 }
 
 function getGlossaryTerm(term, path) {
-  const hover = term.hoverText != undefined ? term.hoverText : "";
+  let hover = term.glossaryText != undefined ? term.glossaryText : "";
+  if(hover.length <= 0) {
+    hover = term.hoverText != undefined ? term.hoverText : "";
+  }
   return hover.length > 0 ?
     `\n\n- **[${term.title}](${path})**: ${hover}\n` :
     `\n\n- **[${term.title}](${path})**`;
@@ -159,6 +168,7 @@ module.exports = {
   getRelativePath: getRelativePath,
   getCleanTokens: getCleanTokens,
   preloadTerms: preloadTerms,
+  getHeaders: getHeaders,
   addJSImportStatement: addJSImportStatement,
   sortFiles: sortFiles,
   cleanGlossaryTerms: cleanGlossaryTerms,

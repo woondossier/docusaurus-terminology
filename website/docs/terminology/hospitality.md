@@ -2,6 +2,7 @@
 id: hospitality
 title: Hospitality
 hoverText: The friendly and generous reception and entertainment of guests, visitors, or strangers
+glossaryText: " glossaryText something that is actually done/executed - by a single %%host^host%% whatever"
 ---
 
 Hospitality is the relationship between a guest and a %%host|host%%, wherein 

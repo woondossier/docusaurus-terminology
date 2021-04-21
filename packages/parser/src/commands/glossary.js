@@ -1,4 +1,5 @@
 const fs = require("fs");
+const parser = require("./parser.js");
 const path = require("path");
 const {
   getFiles,
@@ -15,6 +16,9 @@ async function glossary(options) {
   options.dryRun && console.log("\n* Dry run enabled *\n");
 
   let glossaryContent = "";
+  if (options.glossaryPatternSeparator) {
+    options.patternSeparator = options.glossaryPatternSeparator;
+  }
 
   // Load the term files
   let termsFiles = [];
@@ -63,6 +67,9 @@ async function glossary(options) {
         `the file: ${options.glossaryFilepath}\n ${err} \nExiting...`);
       process.exit(1);
     } finally {
+      console.log(`\u00BB Parsing terms in the glossary`);
+      options.docsDir = options.glossaryFilepath;
+      glossaryContent = await parser(options);
       console.log(`\u00BB Glossary is updated.`);
     }
   }

@@ -5,6 +5,7 @@ const {
   getFiles,
   getCleanTokens,
   preloadTerms,
+  getHeaders,
   getRelativePath,
   addJSImportStatement
 } = require("../lib.js");
@@ -43,6 +44,13 @@ async function parser(options) {
     process.exit(1);
   }
 
+  if (fs.lstatSync(options.docsDir).isFile() &&
+    path.extname(options.docsDir).includes(".md")) {
+    console.log(`! A single file to be parsed is given in option "docsDir":` +
+    ` "${options.docsDir}"`);
+    allFiles = [options.docsDir];
+  }
+
   if (!allFiles.length) {
     console.log(`\u26A0 No files found. Might be wrong path` +
     ` "${options.docsDir}" in option "docsDir" or empty folder`);
@@ -68,6 +76,9 @@ async function parser(options) {
     }
 
     const oldContent = content;
+    // remove headers of the content of the file
+    let headers = getHeaders(content);
+    content = content.replace(headers, "");
     // get all regex matches
     const regex_matches = content.match(regex);
     // iterate only pages with regex matches
@@ -97,8 +108,8 @@ async function parser(options) {
       // we can safely assume that we have
       // replaced at least 1 term, so we can
       // now add the import statement after
-      // the second `---` occurrence
-      content = addJSImportStatement(content);
+      // the headers of the file
+      content = headers + addJSImportStatement(content);
       // now the new content can be replaced
       // in the opened file
       // check: dry-run

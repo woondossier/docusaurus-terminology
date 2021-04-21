@@ -2,6 +2,7 @@
 id: party
 title: Party
 hoverText: Gathering of people
+glossaryText: " glossaryText a %%host^host%% that sets its %%hospitality^hospitality%%"
 ---
 
 A party is a gathering of people who have been invited by a %%host|host%% for 
