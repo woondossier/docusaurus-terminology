@@ -25,11 +25,11 @@ describe('get relative path', () => {
 
 
 describe('add import statement', () => {
-    const content = '--- id: hospitality ---';
+    const content = '# Hospitality';
     var newContent = addJSImportStatement(content);
     it('gets the updated content with the import statement', () => {
-      expect(newContent).toBe(content
-        + '\n\nimport Term from "@docusaurus-terminology/term";\n');
+      expect(newContent).toBe(
+        '\n\nimport Term from "@docusaurus-terminology/term";\n' + content);
     });
 });
 
