@@ -120,8 +120,8 @@ function getGlossaryTerm(term, path) {
     hover = term.hoverText != undefined ? term.hoverText : "";
   }
   return hover.length > 0 ?
-    `\n\n- **[${term.title}](${path})**: ${hover}\n` :
-    `\n\n- **[${term.title}](${path})**`;
+    `\n\n### [${term.title}](${path}) \n${hover}\n` :
+    `\n\n### [${term.title}](${path})`;
 }
 
 function getOrCreateGlossaryFile(path) {
