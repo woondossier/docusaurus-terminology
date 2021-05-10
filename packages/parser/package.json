@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus-terminology/parser",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Parse terms and link them to their terminology page and generate glossary based on those terms",
   "main": "src/index.js",
   "author": "Thanasis Katsadas <kathan@admin.grnet.gr>",
