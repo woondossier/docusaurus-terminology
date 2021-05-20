@@ -12,6 +12,7 @@ const DEFAULT_OPTIONS = {
   patternSeparator: "|",
   noParseFiles: [],
   noGlossaryFiles: [],
+  glossaryTermPatterns: [],
   dryRun: false,
   debug: false
 };

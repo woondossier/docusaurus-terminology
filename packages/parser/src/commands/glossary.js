@@ -6,6 +6,7 @@ const {
   preloadTerms,
   getCleanTokens,
   cleanGlossaryTerms,
+  filterTypeTerms,
   getRelativePath,
   getGlossaryTerm,
   sortFiles,
@@ -43,11 +44,13 @@ async function glossary(options) {
   // remove terms that don't have title or hoverText
   let cleanTerms = cleanGlossaryTerms(termsData);
 
+  let termsByType = filterTypeTerms(cleanTerms, options.glossaryTermPatterns);
+
   // sort termsData alphabetically
-  sortFiles(cleanTerms);
+  sortFiles(termsByType);
 
   // append terms to the glossary
-  for (const term of cleanTerms) {
+  for (const term of termsByType) {
     const current_file_path = path.resolve(process.cwd(), options.glossaryFilepath);
     const relativePath = getRelativePath(current_file_path, term.filepath, options);
     const glossaryTerm = getGlossaryTerm(term, relativePath);
@@ -73,7 +76,7 @@ async function glossary(options) {
       console.log(`\u00BB Glossary is updated.`);
     }
   }
-  console.log(`\u2713 ${cleanTerms.length} terms found.`)
+  console.log(`\u2713 ${termsByType.length} terms found.`)
 };
 
 module.exports = glossary;

@@ -59,6 +59,7 @@ async function preloadTerms(termsFiles) {
         filepath:  term,
         hoverText: metadata.hoverText || "",
         glossaryText: metadata.glossaryText || "",
+        type: metadata.type || "",
         id: metadata.id,
         title: metadata.title || ""
       }
@@ -114,6 +115,20 @@ function cleanGlossaryTerms(terms) {
   return cleanTerms;
 }
 
+function filterTypeTerms(terms, glossaryTermPatterns) {
+  if (glossaryTermPatterns.length == 0) {
+    console.log("! No glossaryTermPatterns were specified to filter " +
+      "terms by type.");
+    return terms;
+  }
+  const typeTerms = terms.filter(item => {
+    return glossaryTermPatterns.indexOf(item.type) > -1 ? true : console.log(
+      `! The attribute "type" of term "${item.id}" is missing or does not ` +
+      `match any type listed in the glossaryTermPatterns.`);
+  });
+  return typeTerms;
+}
+
 function getGlossaryTerm(term, path) {
   let hover = term.glossaryText != undefined ? term.glossaryText : "";
   if(hover.length <= 0) {
@@ -151,7 +166,8 @@ function getRelativePath(source, target, opts) {
   const targetDir = target.substr(0, target.lastIndexOf("/"));
   //const relative_url = path.relative(sourceDir, targetDir);
   const relative_url = path.relative(opts.termsDir, targetDir);
-  const final_url = path.join(opts.termsUrl, relative_url,target.substr(target.lastIndexOf("/")));
+  const final_url = path.join(
+    opts.termsUrl, relative_url, target.substr(target.lastIndexOf("/")));
   // construct the final url by appending the target's filename
   // if the relative url is empty, it means that the referenced
   // term is in the same dir, so add a `.`
@@ -172,6 +188,7 @@ module.exports = {
   addJSImportStatement: addJSImportStatement,
   sortFiles: sortFiles,
   cleanGlossaryTerms: cleanGlossaryTerms,
+  filterTypeTerms: filterTypeTerms,
   getGlossaryTerm: getGlossaryTerm,
   getOrCreateGlossaryFile: getOrCreateGlossaryFile
 };

@@ -1,6 +1,7 @@
 ---
 id: hospitality
 title: Hospitality
+type: term
 hoverText: The friendly and generous reception and entertainment of guests, visitors, or strangers
 glossaryText: " glossaryText something that is actually done/executed - by a single %%host^host%% whatever"
 ---
