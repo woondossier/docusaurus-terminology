@@ -5,6 +5,7 @@ const {
   addJSImportStatement,
   getRelativePath,
   getCleanTokens,
+  filterTypeTerms,
   getFiles,
   preloadTerms
 } = require('../src/lib.js');
@@ -75,4 +76,14 @@ it('get list of terms', async () => {
   const files = await getFiles(basePath, []);
   const terms = await preloadTerms(files);
   expect(terms.length).toEqual(2);
+});
+
+
+it('filter the terms based on the type: concept', async () => {
+  const basePath = './packages/parser/__tests__/test_docs/';
+  const files = await getFiles(basePath, []);
+  const terms = await preloadTerms(files);
+  const glossaryTermPatterns = ['concept'];
+  var typeTerms = filterTypeTerms(terms, glossaryTermPatterns);
+  expect(typeTerms.length).toEqual(1);
 });

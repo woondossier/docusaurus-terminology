@@ -1,6 +1,7 @@
 ---
 id: host
 title: Host
+type: concept
 hoverText: A person responsible for guests at an event
 ---
 

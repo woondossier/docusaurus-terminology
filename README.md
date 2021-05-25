@@ -220,13 +220,16 @@ name in `docusaurus.config.js` file of your repository:
 You can also use some of the following options specified by wrapping the name 
 and an options object in an array inside your configuration:
 
-|      Option      |                                                Description                                                |  Type  |    Default value   |
-|:----------------:|:---------------------------------------------------------------------------------------------------------:|:------:|:------------------:|
-|     termsDir     |                                the directory used to collect the term files                               | string |    ./docs/terms    |
-| glossaryFilepath |                            specify the directory and name of the glossary file                            | string | ./docs/glossary.md |
-| patternSeparator | the special character used to separate `term_text` <br>and `term_name` in the replace pattern for parsing | string |         \|         |
-|   noParseFiles   |                             array of files to be excluded from search/replace                             |  array |         []         |
-|  noGlossaryFiles |                         array of term files to not be listed on the glossary page                         |  array |         []         |
+|      Option          |                                                Description                                                |  Type  |    Default value   |
+|:--------------------:|:---------------------------------------------------------------------------------------------------------:|:------:|:------------------:|
+|     termsDir         |                                the directory used to collect the term files                               | string |    ./docs/terms    |
+|  glossaryFilepath    |                            specify the directory and name of the glossary file                            | string | ./docs/glossary.md |
+|  patternSeparator    | the special character used to separate `term_text` <br>and `term_name` in the replace pattern for parsing | string |         \|         |
+|   noParseFiles       |                             array of files to be excluded from search/replace                             |  array |         []         |
+|  noGlossaryFiles     |                         array of term files to not be listed on the glossary page                         |  array |         []         |
+| glossaryTermPatterns |          array of `type` values, to choose category/ies of terms to be included in the glossary           |  array |         []         |
+
+> `type`: optional attribute in the header of the Markdown files
 
 **IMPORTANT NOTE**: All file paths need to be relative to the
 project's root directory. If you want to exclude a file, you should
@@ -242,6 +245,7 @@ plugins: [
       termsDir: './docs/terminology/',
       noParseFiles: ['./docs/terminology/agent.md', './docs/terminology/actor.md'],
       noGlossaryFiles: ['./docs/terminology/agent.md'],
+      glossaryTermPatterns: ['concept']
     }
   ]
 ]
