@@ -84,7 +84,7 @@ async function parser(options) {
     // iterate only pages with regex matches
     if(regex_matches !== null) {
       nmbMatches += regex_matches.length;
-      for(match of regex_matches) {
+      for(const match of regex_matches) {
         const tokens = getCleanTokens(match, options.patternSeparator);
         // for ease of use
         const text = tokens[0];
@@ -98,10 +98,9 @@ async function parser(options) {
           process.exit(1);
         }
         const current_file_path = path.resolve(process.cwd(), filepath);
-        const relativePath =
-          getRelativePath(current_file_path, termReference.filepath, options);
+        const relativePath = getRelativePath(current_file_path, termReference.filepath, options);
         const component = `<Term popup="${termReference.hoverText}" ` +
-          `reference="${relativePath}">${text}</Term>`;
+          `reference="${relativePath}" video="${termReference.video}">${text}</Term>`;
         content = content.replace(match, component);
       };
       // since we are inside the if function

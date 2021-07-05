@@ -21,6 +21,7 @@ async function getFiles(basePath, noParseFiles, noThrow=false) {
   // get all files under dir
   try {
     // get all md files from basePath
+    basePath = basePath.split("\\").join("/");
     files = await globby(basePath+"**/*.{md,mdx}");
   } catch (err) {
     if (noThrow) {
@@ -61,7 +62,8 @@ async function preloadTerms(termsFiles) {
         glossaryText: metadata.glossaryText || "",
         type: metadata.type || "",
         id: metadata.id,
-        title: metadata.title || ""
+        title: metadata.title || "",
+        video: metadata.video || "",
       }
       terms.push(data);
     }
@@ -176,7 +178,7 @@ function getRelativePath(source, target, opts) {
   //  : relative_url + target.substr(target.lastIndexOf("/"));
   //console.log(new_rel_url, new_final_url);
   //  remove .mdx suffix
-  return final_url.replace(/(\.mdx?)/g, "")
+  return final_url.replace(/(\.mdx?)/g, "").split('\\').join('/')
 }
 
 module.exports = {
