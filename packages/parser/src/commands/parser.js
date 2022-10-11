@@ -45,7 +45,7 @@ async function parser(options) {
   }
 
   if (fs.lstatSync(options.docsDir).isFile() &&
-    path.extname(options.docsDir).includes(".md")) {
+    path.posix.extname(options.docsDir).includes(".md")) {
     console.log(`! A single file to be parsed is given in option "docsDir":` +
     ` "${options.docsDir}"`);
     allFiles = [options.docsDir];
@@ -97,7 +97,7 @@ async function parser(options) {
           console.log("Exiting...");
           process.exit(1);
         }
-        const current_file_path = path.resolve(process.cwd(), filepath);
+        const current_file_path = path.posix.resolve(process.cwd(), filepath);
         const relativePath = getRelativePath(current_file_path, termReference.filepath, options);
         const component = `<Term popup="${termReference.hoverText}" ` +
           `reference="${relativePath}" video="${termReference.video}">${text}</Term>`;
