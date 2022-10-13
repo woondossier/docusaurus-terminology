@@ -24,7 +24,7 @@ module.exports = function (context, opts) {
       `using default directory "${DEFAULT_OPTIONS.termsDir}"\n`);
   options = Object.assign({}, DEFAULT_OPTIONS, opts);
   validateOptions(options);
-  options.termsUrl = path.posix.join(context.baseUrl, options.termsDir, "/");
+  options.termsUrl = path.posix.join(context.baseUrl, options.termsUrl, "/");
   options.termsDir = path.posix.resolve(options.termsDir) + "/";
   options.docsDir = path.posix.resolve(options.docsDir) + "/";
   options.glossaryFilepath = path.posix.resolve(options.glossaryFilepath);
