@@ -51,7 +51,7 @@ async function glossary(options) {
 
   // append terms to the glossary
   for (const term of termsByType) {
-    const current_file_path = path.resolve(process.cwd(), options.glossaryFilepath);
+    const current_file_path = path.posix.resolve(process.cwd(), options.glossaryFilepath);
     const relativePath = getRelativePath(current_file_path, term.filepath, options);
     const glossaryTerm = getGlossaryTerm(term, relativePath);
     glossaryContent = glossaryContent + glossaryTerm;

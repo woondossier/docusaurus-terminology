@@ -24,15 +24,15 @@ module.exports = function (context, opts) {
       `using default directory "${DEFAULT_OPTIONS.termsDir}"\n`);
   options = Object.assign({}, DEFAULT_OPTIONS, opts);
   validateOptions(options);
-  options.termsUrl = path.join(context.baseUrl, options.termsDir, "/");
-  options.termsDir = path.resolve(options.termsDir) + "/";
-  options.docsDir = path.resolve(options.docsDir) + "/";
-  options.glossaryFilepath = path.resolve(options.glossaryFilepath);
+  options.termsUrl = path.posix.join(context.baseUrl, options.termsUrl, "/");
+  options.termsDir = path.posix.resolve(options.termsDir) + "/";
+  options.docsDir = path.posix.resolve(options.docsDir) + "/";
+  options.glossaryFilepath = path.posix.resolve(options.glossaryFilepath);
   for (const [index,item] of options.noParseFiles.entries()) {
-    options.noParseFiles[index] = path.resolve(process.cwd(), item);
+    options.noParseFiles[index] = path.posix.resolve(process.cwd(), item);
   }
   for (const [index,item] of options.noGlossaryFiles.entries()) {
-    options.noGlossaryFiles[index] = path.resolve(process.cwd(), item);
+    options.noGlossaryFiles[index] = path.posix.resolve(process.cwd(), item);
   }
 
   return {

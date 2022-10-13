@@ -86,7 +86,7 @@ function splice(cont, idx, rem, str) {
 }
 
 function getHeaders(content) {
-  const index = content.indexOf("---", 1) + "---".length;
+  const index = content.indexOf("---") < 0 ? 0 : content.indexOf("---", 1) + "---".length;
   // slice the headers of the file
   return content.slice(0, index);
 }
@@ -167,8 +167,8 @@ function getRelativePath(source, target, opts) {
   const sourceDir = source.substr(0, source.lastIndexOf("/"));
   const targetDir = target.substr(0, target.lastIndexOf("/"));
   //const relative_url = path.relative(sourceDir, targetDir);
-  const relative_url = path.relative(opts.termsDir, targetDir);
-  const final_url = path.join(
+  const relative_url = path.posix.relative(opts.termsDir, targetDir);
+  const final_url = path.posix.join(
     opts.termsUrl, relative_url, target.substr(target.lastIndexOf("/")));
   // construct the final url by appending the target's filename
   // if the relative url is empty, it means that the referenced

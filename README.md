@@ -49,7 +49,7 @@ module.exports = {
 ```
 
 Or, you can use it with extra options defined (with more examples in
-the next sections): 
+the next sections):
 
 ```js
   plugins: [
@@ -89,7 +89,7 @@ content here
 
 ### Use Patterns to Reference a Term
 
-When writing docs inside `docs/*.md(x)` files, in order to refer to a term, 
+When writing docs inside `docs/*.md(x)` files, in order to refer to a term,
 you may use the following syntax:
 
 
@@ -109,10 +109,10 @@ header of the term file:
   > ---
   > ```
 
-After successfully running the script, the above occurrence will be replaced by 
-a reference (technically a React component) that  will render `term_text` as a 
-link to the corresponding term page, which is in turn generated from the 
-`term_name` attribute; furthermore, *hovering* over `term_text` displays a term 
+After successfully running the script, the above occurrence will be replaced by
+a reference (technically a React component) that  will render `term_text` as a
+link to the corresponding term page, which is in turn generated from the
+`term_name` attribute; furthermore, *hovering* over `term_text` displays a term
 summary, as extracted from the corresponding term page.
 
 ### Example Usage
@@ -143,9 +143,9 @@ with the word **Party** containing the described functionality.
 
 ### Testing the Changes Locally
 
-After writing terms and patterns in your `.md` files, you can always validate 
+After writing terms and patterns in your `.md` files, you can always validate
 these changes, by running a dry-run command, in order to see compile errors
-and a sample output of all the changes that will be made from the actual 
+and a sample output of all the changes that will be made from the actual
 script. You can do that by running:
 
 ```commandline
@@ -156,14 +156,14 @@ and you will see in the command line the expected output of the actual command.
 
 ### Generating the Terminology Documentation
 
-When you are finished referencing terms and have written corresponding term 
+When you are finished referencing terms and have written corresponding term
 pages, you can test this locally by running:
 
 ```commandline
 yarn docusaurus parse
 ```
 
-This will replace all `%%term_text|term_name%%` occurrences with the React 
+This will replace all `%%term_text|term_name%%` occurrences with the React
 component supporting the required functionality.
 
 ### Generating the Glossary Page
@@ -180,15 +180,15 @@ mentioned above will be populated in the `glossary.md` page.
 
 ## When to Generate the Terminology Docs
 
-As the terminology plugin actually edits all markdown files, your Git repository 
-will show changes in the `git diff` command. It is highly recommended to avoid 
+As the terminology plugin actually edits all markdown files, your Git repository
+will show changes in the `git diff` command. It is highly recommended to avoid
 committing the changes, as the plugin will no longer be able to detect
-patterns that have been altered. 
+patterns that have been altered.
 
-Your best case scenario will be to use the scripts in CI, just before building 
+Your best case scenario will be to use the scripts in CI, just before building
 and deploying the documentation.
 
-The following example of a Gitlab CI job shows how to perform these steps in 
+The following example of a Gitlab CI job shows how to perform these steps in
 the CI environment:
 
 ```yaml
@@ -208,7 +208,7 @@ and then you can use the `build` directory to serve your documentation.
 
 ## Configuration Options
 
-For using the plugin with the default options, you can provide just the plugin 
+For using the plugin with the default options, you can provide just the plugin
 name in `docusaurus.config.js` file of your repository:
 
 ```js
@@ -217,12 +217,13 @@ name in `docusaurus.config.js` file of your repository:
   ]
 ```
 
-You can also use some of the following options specified by wrapping the name 
+You can also use some of the following options specified by wrapping the name
 and an options object in an array inside your configuration:
 
 |      Option          |                                                Description                                                |  Type  |    Default value   |
 |:--------------------:|:---------------------------------------------------------------------------------------------------------:|:------:|:------------------:|
 |     termsDir         |                                the directory used to collect the term files                               | string |    ./docs/terms    |
+|     termsUrl         |                           the path used link from the glossary to the term files                          | string |     /docs/terms    |
 |  glossaryFilepath    |                            specify the directory and name of the glossary file                            | string | ./docs/glossary.md |
 |  patternSeparator    | the special character used to separate `term_text` <br>and `term_name` in the replace pattern for parsing | string |         \|         |
 |   noParseFiles       |                             array of files to be excluded from search/replace                             |  array |         []         |
@@ -233,7 +234,7 @@ and an options object in an array inside your configuration:
 
 **IMPORTANT NOTE**: All file paths need to be relative to the
 project's root directory. If you want to exclude a file, you should
-write `./docs/excude-me.md`. 
+write `./docs/excude-me.md`.
 
 Example:
 
@@ -253,7 +254,7 @@ plugins: [
 
 ## How to Contribute
 
-To build and use the plugin locally in a project, apply changes etc., follow the 
+To build and use the plugin locally in a project, apply changes etc., follow the
 instructions below.
 
 Clone the repository [https://gitlab.grnet.gr/devs/docusaurus-terminology](https://gitlab.grnet.gr/devs/docusaurus-terminology)
@@ -268,7 +269,7 @@ yarn build
 ```
 
 After running those commands, all packages will be initialized and
-built, and you are ready for development. 
+built, and you are ready for development.
 
 In the `website` directory there is a Docusaurus project, ready with
 the plugin initialized, which can be used for testing purposes. There
@@ -285,7 +286,7 @@ yarn build
 
 from the root directory of the repository. And then we are ready to
 test everything in the local Docusaurus project, so we run the
-following commands: 
+following commands:
 
 ```commandline
 cd website
@@ -304,7 +305,7 @@ yarn build
 And this will output our compiled website in a directory called
 `build`. You can use a package named `serve` to create instantly a
 nodejs webserver to serve these files (as used in the dockerfile). You
-can run: 
+can run:
 
 ```commandline
 yarn global add serve
